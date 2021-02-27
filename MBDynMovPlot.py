@@ -70,7 +70,7 @@ class MBDynMovPlot:
                         if platform == "linux" or platform == "linux2": 
                             self.dataFile["mov"] = dirName+"/"+fname
                         if platform == "win32":
-                            self.dataFile["mov"] = dirName+"\\"+fname
+                            self.dataFile["mov"] = re.split('\\\\+$', dirName)[0]+"\\"+fname
                         print("--- " + fname + " is used now. ---")
                         result = True
             else:
@@ -79,7 +79,7 @@ class MBDynMovPlot:
                     if platform == "linux" or platform == "linux2": 
                         self.dataFile["input"] = dirName+"/"+fname
                     if platform == "win32":
-                        self.dataFile["input"] = dirName+"\\"+fname
+                        self.dataFile["input"] = re.split('\\\\+$', dirName)[0]+"\\"+fname
                 if "mov" == suffix:
                     if platform == "linux" or platform == "linux2": 
                         self.dataFile["mov"] = dirName+"/"+input_file.strip().split(".")[0]+".mov"
