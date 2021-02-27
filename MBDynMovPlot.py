@@ -43,20 +43,23 @@ class MBDynMovPlot:
             if check_result == True:
                 if self.dataFile.get("mov") is None:
                     self.notify(3)
-                    if platform == "linux" or platform == "linux2": 
-                        mbdyn = subprocess.Popen(["mbdyn", "-f", self.dataFile.get("input")])
-                    if platform == "win32":
-                        mbdyn = subprocess.Popen(r'mbdyn.exe -f '+ self.dataFile.get("input"))
-                    try:
-                        mbdyn.wait(timeout = 100)
-                    except:
-                        print("===== process timeout =====")
-                        mbdyn.kill()
+                    self.run_mbdyn()
             else:
                 self.notify(2)
         elif check_result is None:
             self.notify(1)
 
+    def run_mbdyn(self):
+        if platform == "linux" or platform == "linux2": 
+            mbdyn = subprocess.Popen(["mbdyn", "-f", self.dataFile.get("input")])
+        if platform == "win32":
+            mbdyn = subprocess.Popen(r'mbdyn.exe -f '+ self.dataFile.get("input"))
+        try:
+            mbdyn.wait(timeout = 100)
+        except:
+            print("===== process timeout =====")
+            mbdyn.kill()
+            
     def check_file(self, input_file = None):
         result    = None
         dirName  = os.sep.join(os.getcwd().split("\\"))
@@ -113,52 +116,56 @@ class MBDynMovPlot:
                     if 'time' in line_list and 'step' in line_list:
                         self.time_step = float(line_list[-2])
                 self.time = np.arange(self.initial_time, self.final_time, self.time_step)  
-
-        with open(self.dataFile.get("mov"),"r") as file:
-            for i, line in enumerate(file):
-                line_list = line.strip().split(" ")
-                
-                # get corresponding information
-                node      = line_list[mov_file_structure.get("node_label")]
-                pos_x     = np.float64(line_list[mov_file_structure.get("pos_x")])
-                pos_y     = np.float64(line_list[mov_file_structure.get("pos_y")])
-                pos_z     = np.float64(line_list[mov_file_structure.get("pos_z")])
-                angle_x   = np.float64(line_list[mov_file_structure.get("angle_x")])
-                angle_y   = np.float64(line_list[mov_file_structure.get("angle_y")])
-                angle_z   = np.float64(line_list[mov_file_structure.get("angle_z")])
-                vel_x     = np.float64(line_list[mov_file_structure.get("vel_x")])
-                vel_y     = np.float64(line_list[mov_file_structure.get("vel_y")])
-                vel_z     = np.float64(line_list[mov_file_structure.get("vel_z")])
-                angular_x = np.float64(line_list[mov_file_structure.get("angular_x")])
-                angular_y = np.float64(line_list[mov_file_structure.get("angular_y")])
-                angular_z = np.float64(line_list[mov_file_structure.get("angular_z")])
-                
-                if self.data.get(node) == None:
-                    self.data[node] = {"pos_x"    :[pos_x],
-                                       "pos_y"    :[pos_y],
-                                       "pos_z"    :[pos_z],
-                                       "angle_x"  :[angle_x],
-                                       "angle_y"  :[angle_y],
-                                       "angle_z"  :[angle_z],
-                                       "vel_x"    :[vel_x],
-                                       "vel_y"    :[vel_y],
-                                       "vel_z"    :[vel_z],
-                                       "angular_x":[angular_x],
-                                       "angular_y":[angular_y],
-                                       "angular_z":[angular_z]}
-                else:
-                    self.data[node].get("pos_x").append(pos_x)
-                    self.data[node].get("pos_y").append(pos_y)
-                    self.data[node].get("pos_z").append(pos_z)
-                    self.data[node].get("angle_x").append(angle_x)
-                    self.data[node].get("angle_y").append(angle_y)
-                    self.data[node].get("angle_z").append(angle_z)
-                    self.data[node].get("vel_x").append(vel_x)
-                    self.data[node].get("vel_y").append(vel_y)
-                    self.data[node].get("vel_z").append(vel_z)
-                    self.data[node].get("angular_x").append(angular_x)
-                    self.data[node].get("angular_y").append(angular_y)
-                    self.data[node].get("angular_z").append(angular_z)
+        try:
+            with open(self.dataFile.get("mov"),"r") as file:
+                for i, line in enumerate(file):
+                    line_list = line.strip().split(" ")
+                    
+                    # get corresponding information
+                    node      = line_list[mov_file_structure.get("node_label")]
+                    pos_x     = np.float64(line_list[mov_file_structure.get("pos_x")])
+                    pos_y     = np.float64(line_list[mov_file_structure.get("pos_y")])
+                    pos_z     = np.float64(line_list[mov_file_structure.get("pos_z")])
+                    angle_x   = np.float64(line_list[mov_file_structure.get("angle_x")])
+                    angle_y   = np.float64(line_list[mov_file_structure.get("angle_y")])
+                    angle_z   = np.float64(line_list[mov_file_structure.get("angle_z")])
+                    vel_x     = np.float64(line_list[mov_file_structure.get("vel_x")])
+                    vel_y     = np.float64(line_list[mov_file_structure.get("vel_y")])
+                    vel_z     = np.float64(line_list[mov_file_structure.get("vel_z")])
+                    angular_x = np.float64(line_list[mov_file_structure.get("angular_x")])
+                    angular_y = np.float64(line_list[mov_file_structure.get("angular_y")])
+                    angular_z = np.float64(line_list[mov_file_structure.get("angular_z")])
+                    
+                    if self.data.get(node) == None:
+                        self.data[node] = {"pos_x"    :[pos_x],
+                                           "pos_y"    :[pos_y],
+                                           "pos_z"    :[pos_z],
+                                           "angle_x"  :[angle_x],
+                                           "angle_y"  :[angle_y],
+                                           "angle_z"  :[angle_z],
+                                           "vel_x"    :[vel_x],
+                                           "vel_y"    :[vel_y],
+                                           "vel_z"    :[vel_z],
+                                           "angular_x":[angular_x],
+                                           "angular_y":[angular_y],
+                                           "angular_z":[angular_z]}
+                    else:
+                        self.data[node].get("pos_x").append(pos_x)
+                        self.data[node].get("pos_y").append(pos_y)
+                        self.data[node].get("pos_z").append(pos_z)
+                        self.data[node].get("angle_x").append(angle_x)
+                        self.data[node].get("angle_y").append(angle_y)
+                        self.data[node].get("angle_z").append(angle_z)
+                        self.data[node].get("vel_x").append(vel_x)
+                        self.data[node].get("vel_y").append(vel_y)
+                        self.data[node].get("vel_z").append(vel_z)
+                        self.data[node].get("angular_x").append(angular_x)
+                        self.data[node].get("angular_y").append(angular_y)
+                        self.data[node].get("angular_z").append(angular_z)
+        except:
+            if self.dataFile.get("input") is not None:
+                self.run_mbdyn()
+                return None   
         return True
     
 # --- Animation Position ---
