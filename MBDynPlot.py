@@ -1,6 +1,7 @@
 from MBDynMovPlot import MBDynMovPlot
 
-mov = MBDynMovPlot("doublependulum")
+mov = MBDynMovPlot("rigidbody.mbd")
 
 if mov.getData():
-    mov.Py(t="Pz",node_label="6")
+    mov.P3D(node_label="1")
+    
