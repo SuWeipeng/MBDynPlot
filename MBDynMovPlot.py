@@ -48,7 +48,7 @@ class MBDynMovPlot:
                     if platform == "win32":
                         mbdyn = subprocess.Popen(r'mbdyn.exe -f '+ self.dataFile.get("input"))
                     try:
-                        mbdyn.wait(timeout = 10)
+                        mbdyn.wait(timeout = 100)
                     except:
                         print("===== process timeout =====")
                         mbdyn.kill()
