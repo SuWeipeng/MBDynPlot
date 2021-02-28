@@ -12,6 +12,7 @@ pendulum_No = {"1":("1","3"),
 target_pendulum = "1"
 
 mov     = MBDynMovPlot("doublependulum")
+#mov.clear_run() # optional
 data_ok = mov.getData()
 
 if data_ok:

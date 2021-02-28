@@ -49,6 +49,25 @@ class MBDynMovPlot:
         elif check_result is None:
             self.notify(1)
 
+    def clear(self):
+        dirName  = os.sep.join(os.getcwd().split("\\"))
+        fileList = os.listdir(dirName)
+        for fname in fileList:
+            if ".ine" in fname:
+                os.remove(fname)
+            if ".log" in fname:
+                os.remove(fname)
+            if ".jnt" in fname:
+                os.remove(fname)
+            if ".mov" in fname:
+                os.remove(fname)
+            if ".out" in fname:
+                os.remove(fname)
+
+    def clear_run(self):
+        self.clear()
+        self.run_mbdyn()
+        
     def run_mbdyn(self):
         if platform == "linux" or platform == "linux2": 
             mbdyn = subprocess.Popen(["mbdyn", "-f", self.dataFile.get("input")])
