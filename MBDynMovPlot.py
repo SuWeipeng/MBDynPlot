@@ -2182,11 +2182,11 @@ class MBDynMovPlot:
         Euy = self.data[node_label].get("angle_y")[:length]
         Euz = self.data[node_label].get("angle_z")[:length]
         Vx  = self.data[node_label].get("vel_x")[:length]
-        Vy  = self.data[node_label].get("vel_x")[:length]
-        Vz  = self.data[node_label].get("vel_x")[:length]
+        Vy  = self.data[node_label].get("vel_y")[:length]
+        Vz  = self.data[node_label].get("vel_z")[:length]
         Wx  = self.data[node_label].get("angular_x")[:length]
-        Wy  = self.data[node_label].get("angular_x")[:length]
-        Wz  = self.data[node_label].get("angular_x")[:length]
+        Wy  = self.data[node_label].get("angular_y")[:length]
+        Wz  = self.data[node_label].get("angular_z")[:length]
         fig = plt.figure()
         ax1 = fig.add_subplot(341)
         ax2 = fig.add_subplot(342)
