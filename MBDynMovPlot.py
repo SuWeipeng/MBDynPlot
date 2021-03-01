@@ -812,6 +812,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global position component as function of time. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Px(t)"] = node_label
@@ -836,6 +837,7 @@ class MBDynMovPlot:
             plt.xlabel('Py[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global position component as function of Y global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Px(Py)"] = node_label
@@ -857,6 +859,7 @@ class MBDynMovPlot:
             plt.xlabel('Pz[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global position component as function of Z global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Px(Pz)"] = node_label
@@ -880,6 +883,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global position component as function of time. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Py(t)"] = node_label
@@ -901,6 +905,7 @@ class MBDynMovPlot:
             plt.xlabel('Px[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global position component as function of X global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Py(Px)"] = node_label
@@ -922,6 +927,7 @@ class MBDynMovPlot:
             plt.xlabel('Pz[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global position component as function of Z global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Py(Pz)"] = node_label
@@ -945,6 +951,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global position component as function of time. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Pz(t)"] = node_label
@@ -966,6 +973,7 @@ class MBDynMovPlot:
             plt.xlabel('Px[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global position component as function of X global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Pz(Px)"] = node_label
@@ -987,6 +995,7 @@ class MBDynMovPlot:
             plt.xlabel('Py[m]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global position component as function of Y global position component. Node: '+ node_label)
             if self.enableAnimation == True:
                 self.animation_label["Pz(Py)"] = node_label
@@ -1013,6 +1022,7 @@ class MBDynMovPlot:
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global position as function of time. Node: '+ node_label)
         if self.enableAnimation == True:
             self.animation_label["P(t)"] = node_label
@@ -1047,6 +1057,7 @@ class MBDynMovPlot:
         ax.set_zlabel('z[m]')
         plt.legend()
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global 3D trajectory. Node: '+ node_label)
         if self.enableAnimation == True:
             self.animation_label["P3D"] = node_label
@@ -1072,6 +1083,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1104,6 +1116,7 @@ class MBDynMovPlot:
             plt.xlabel('Vy[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global velocity component as function of Y global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1136,6 +1149,7 @@ class MBDynMovPlot:
             plt.xlabel('Vz[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global velocity component as function of Z global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1170,6 +1184,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1202,6 +1217,7 @@ class MBDynMovPlot:
             plt.xlabel('Vx[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global velocity component as function of X global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1234,6 +1250,7 @@ class MBDynMovPlot:
             plt.xlabel('Vz[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global velocity component as function of Z global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1268,6 +1285,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1300,6 +1318,7 @@ class MBDynMovPlot:
             plt.xlabel('Vx[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global velocity component as function of X global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1332,6 +1351,7 @@ class MBDynMovPlot:
             plt.xlabel('Vy[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global velocity component as function of Y global velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1366,6 +1386,7 @@ class MBDynMovPlot:
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global velocity as function of time. Node: '+ node_label)
         if self.enableAnimation == True:
             self.animation_label["V(t)"] = node_label
@@ -1400,6 +1421,7 @@ class MBDynMovPlot:
         ax.set_zlabel('z[m/s]')
         plt.legend()
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global 3D velocity. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1437,6 +1459,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global angular velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1469,6 +1492,7 @@ class MBDynMovPlot:
             plt.xlabel('Wy[rad/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global angular velocity component as function of Y global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1501,6 +1525,7 @@ class MBDynMovPlot:
             plt.xlabel('Wz[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('X global angular velocity component as function of Z global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1535,6 +1560,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global angular velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1567,6 +1593,7 @@ class MBDynMovPlot:
             plt.xlabel('Wx[rad/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global angular velocity component as function of X global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1599,6 +1626,7 @@ class MBDynMovPlot:
             plt.xlabel('Wz[rad/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Y global angular velocity component as function of Z global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1633,6 +1661,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global angular velocity component as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1665,6 +1694,7 @@ class MBDynMovPlot:
             plt.xlabel('Wx[m/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global angular velocity component as function of X global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1697,6 +1727,7 @@ class MBDynMovPlot:
             plt.xlabel('Wy[rad/s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Z global angular velocity component as function of Y global angular velocity component. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1731,6 +1762,7 @@ class MBDynMovPlot:
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global angular velocity as function of time. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1773,6 +1805,7 @@ class MBDynMovPlot:
         ax.set_zlabel('Wz[rad/s]')
         plt.legend()
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global 3D angular velocity. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1810,6 +1843,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global roll as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1842,6 +1876,7 @@ class MBDynMovPlot:
             plt.xlabel('pitch[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global roll as function of absolute pitch. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1874,6 +1909,7 @@ class MBDynMovPlot:
             plt.xlabel('yaw[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global roll as function of absolute pitch. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1908,6 +1944,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global pitch as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1940,6 +1977,7 @@ class MBDynMovPlot:
             plt.xlabel('roll[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global pitch as function of absolute roll. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1972,6 +2010,7 @@ class MBDynMovPlot:
             plt.xlabel('yaw[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global pitch as function of absolute yaw. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2006,6 +2045,7 @@ class MBDynMovPlot:
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global yaw as function of time. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2038,6 +2078,7 @@ class MBDynMovPlot:
             plt.xlabel('roll[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global yaw as function of absolute roll. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2070,6 +2111,7 @@ class MBDynMovPlot:
             plt.xlabel('pitch[deg]')
             plt.legend()            
             plt.grid()
+            plt.axis('equal')
             plt.suptitle('Global yaw as function of absolute pitch. Node: '+ node_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2104,6 +2146,7 @@ class MBDynMovPlot:
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Global orientation as function of time. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2146,6 +2189,7 @@ class MBDynMovPlot:
         ax.set_zlabel('yaw[deg]')
         plt.legend()
         plt.grid()
+        plt.axis('equal')
         plt.suptitle('Absolute 3D orientation. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2230,11 +2274,11 @@ class MBDynMovPlot:
         ylim = ax10.get_ylim()
         if math.fabs(ylim[0]-ylim[1]) < 1e-3:
             ax10.set_ylim([ylim[0]-0.1, ylim[1]+0.1])
-        ax2.set_ylabel('yaw[deg]')
+        ax2.set_ylabel('roll[deg]')
         ax2.set_xlabel('t[s]')
-        ax6.set_ylabel('pithc[deg]')
+        ax6.set_ylabel('pitch[deg]')
         ax6.set_xlabel('t[s]')
-        ax10.set_ylabel('roll[deg]')
+        ax10.set_ylabel('yaw[deg]')
         ax10.set_xlabel('t[s]')
         ax3.plot(time,Vx)
         xlim = ax3.get_xlim()
