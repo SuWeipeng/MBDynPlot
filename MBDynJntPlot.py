@@ -160,17 +160,17 @@ class MBDynJntPlot:
                     
                     if self.data.get(joint) == None:
                         self.data[joint] = {"reaction_force_X_local"    :[reaction_force_X_local],
-                                           "reaction_force_Y_local"    :[reaction_force_Y_local],
-                                           "reaction_force_Z_local"    :[reaction_force_Z_local],
-                                           "reaction_couple_X_local"   :[reaction_couple_X_local],
-                                           "reaction_couple_Y_local"   :[reaction_couple_Y_local],
-                                           "reaction_couple_Z_local"   :[reaction_couple_Z_local],
-                                           "reaction_force_X_global"   :[reaction_force_X_global],
-                                           "reaction_force_Y_global"   :[reaction_force_Y_global],
-                                           "reaction_force_Z_global"   :[reaction_force_Z_global],
-                                           "reaction_couple_X_global"  :[reaction_couple_X_global],
-                                           "reaction_couple_Y_global"  :[reaction_couple_Y_global],
-                                           "reaction_couple_Z_global"  :[reaction_couple_Z_global]}
+                                            "reaction_force_Y_local"    :[reaction_force_Y_local],
+                                            "reaction_force_Z_local"    :[reaction_force_Z_local],
+                                            "reaction_couple_X_local"   :[reaction_couple_X_local],
+                                            "reaction_couple_Y_local"   :[reaction_couple_Y_local],
+                                            "reaction_couple_Z_local"   :[reaction_couple_Z_local],
+                                            "reaction_force_X_global"   :[reaction_force_X_global],
+                                            "reaction_force_Y_global"   :[reaction_force_Y_global],
+                                            "reaction_force_Z_global"   :[reaction_force_Z_global],
+                                            "reaction_couple_X_global"  :[reaction_couple_X_global],
+                                            "reaction_couple_Y_global"  :[reaction_couple_Y_global],
+                                            "reaction_couple_Z_global"  :[reaction_couple_Z_global]}
                     else:
                         self.data[joint].get("reaction_force_X_local").append(reaction_force_X_local)
                         self.data[joint].get("reaction_force_Y_local").append(reaction_force_Y_local)
