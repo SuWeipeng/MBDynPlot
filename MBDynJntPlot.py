@@ -466,7 +466,7 @@ class MBDynJntPlot:
         self.point_ani_ffzffy.set_ydata(z[num])
         return self.point_ani_ffzffy,
 
-    def update_points_FFt(self, num):     
+    def update_points_fft(self, num):     
         node_label = self.animation_label["FF(t)"]
         t = self.time
         x = self.data[node_label].get("reaction_force_X_global")
@@ -1157,9 +1157,9 @@ class MBDynJntPlot:
         length = min(length, len(self.data[node_label].get("reaction_force_Y_global")))
         length = min(length, len(self.data[node_label].get("reaction_force_Z_global")))
         fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_global")[:length],label='Vx(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_global")[:length],label='Vy(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_global")[:length],label='Vz(t)',color='blue')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_global")[:length],label='FFx(t)',color='red')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_global")[:length],label='FFy(t)',color='green')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_global")[:length],label='FFz(t)',color='blue')
         plt.ylabel('FF[N]')
         plt.xlabel('t[s]')
         plt.legend()            
@@ -1400,7 +1400,7 @@ class MBDynJntPlot:
             ax.set_zlim(zlim[0] - 0.1,
                         zlim[1] + 0.1)
         if self.enableAnimation == True:
-            self.animation_label["O3D"] = node_label
+            self.animation_label["T3D"] = node_label
             self.point_ani_t3d, = ax.plot([x[0]], [y[0]], [z[0]], "ro")
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_t3d,
