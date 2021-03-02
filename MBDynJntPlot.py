@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.animation as animation
 from sys import platform
 
-jnt_file_structure = {"node_label": 0,
+jnt_file_structure = {"joint_label": 0,
                       "reaction_force_X_local"     : 1,
                       "reaction_force_Y_local"     : 2,
                       "reaction_force_Z_local"     : 3,
@@ -144,7 +144,7 @@ class MBDynJntPlot:
                         continue
                     
                     # get corresponding information
-                    node                       = line_list[jnt_file_structure.get("node_label")]
+                    joint                      = line_list[jnt_file_structure.get("joint_label")]
                     reaction_force_X_local     = np.float64(line_list[jnt_file_structure.get("reaction_force_X_local")])
                     reaction_force_Y_local     = np.float64(line_list[jnt_file_structure.get("reaction_force_Y_local")])
                     reaction_force_Z_local     = np.float64(line_list[jnt_file_structure.get("reaction_force_Z_local")])
@@ -158,8 +158,8 @@ class MBDynJntPlot:
                     reaction_couple_Y_global   = np.float64(line_list[jnt_file_structure.get("reaction_couple_Y_global")])
                     reaction_couple_Z_global   = np.float64(line_list[jnt_file_structure.get("reaction_couple_Z_global")])
                     
-                    if self.data.get(node) == None:
-                        self.data[node] = {"reaction_force_X_local"    :[reaction_force_X_local],
+                    if self.data.get(joint) == None:
+                        self.data[joint] = {"reaction_force_X_local"    :[reaction_force_X_local],
                                            "reaction_force_Y_local"    :[reaction_force_Y_local],
                                            "reaction_force_Z_local"    :[reaction_force_Z_local],
                                            "reaction_couple_X_local"   :[reaction_couple_X_local],
@@ -172,18 +172,18 @@ class MBDynJntPlot:
                                            "reaction_couple_Y_global"  :[reaction_couple_Y_global],
                                            "reaction_couple_Z_global"  :[reaction_couple_Z_global]}
                     else:
-                        self.data[node].get("reaction_force_X_local").append(reaction_force_X_local)
-                        self.data[node].get("reaction_force_Y_local").append(reaction_force_Y_local)
-                        self.data[node].get("reaction_force_Z_local").append(reaction_force_Z_local)
-                        self.data[node].get("reaction_couple_X_local").append(reaction_couple_X_local)
-                        self.data[node].get("reaction_couple_Y_local").append(reaction_couple_Y_local)
-                        self.data[node].get("reaction_couple_Z_local").append(reaction_couple_Z_local)
-                        self.data[node].get("reaction_force_X_global").append(reaction_force_X_global)
-                        self.data[node].get("reaction_force_Y_global").append(reaction_force_Y_global)
-                        self.data[node].get("reaction_force_Z_global").append(reaction_force_Z_global)
-                        self.data[node].get("reaction_couple_X_global").append(reaction_couple_X_global)
-                        self.data[node].get("reaction_couple_Y_global").append(reaction_couple_Y_global)
-                        self.data[node].get("reaction_couple_Z_global").append(reaction_couple_Z_global)
+                        self.data[joint].get("reaction_force_X_local").append(reaction_force_X_local)
+                        self.data[joint].get("reaction_force_Y_local").append(reaction_force_Y_local)
+                        self.data[joint].get("reaction_force_Z_local").append(reaction_force_Z_local)
+                        self.data[joint].get("reaction_couple_X_local").append(reaction_couple_X_local)
+                        self.data[joint].get("reaction_couple_Y_local").append(reaction_couple_Y_local)
+                        self.data[joint].get("reaction_couple_Z_local").append(reaction_couple_Z_local)
+                        self.data[joint].get("reaction_force_X_global").append(reaction_force_X_global)
+                        self.data[joint].get("reaction_force_Y_global").append(reaction_force_Y_global)
+                        self.data[joint].get("reaction_force_Z_global").append(reaction_force_Z_global)
+                        self.data[joint].get("reaction_couple_X_global").append(reaction_couple_X_global)
+                        self.data[joint].get("reaction_couple_Y_global").append(reaction_couple_Y_global)
+                        self.data[joint].get("reaction_couple_Z_global").append(reaction_couple_Z_global)
         except:
             if self.dataFile.get("input") is not None:
                 self.run_mbdyn()
@@ -192,10 +192,10 @@ class MBDynJntPlot:
     
 # --- Animation Position ---
     def update_points_f3d(self, num):
-        node_label = self.animation_label["F3D"]
-        x = self.data[node_label].get("reaction_force_X_local")
-        y = self.data[node_label].get("reaction_force_Y_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        joint_label = self.animation_label["F3D"]
+        x = self.data[joint_label].get("reaction_force_X_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
         
         self.point_ani_f3d.set_marker(self.__ani_marker)
         self.point_ani_f3d.set_markersize(self.__ani_markersize)
@@ -206,9 +206,9 @@ class MBDynJntPlot:
         return self.point_ani_f3d,
     
     def update_points_fxt(self, num):     
-        node_label = self.animation_label["Fx(t)"]
+        joint_label = self.animation_label["Fx(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_force_X_local")
+        x = self.data[joint_label].get("reaction_force_X_local")
 
         self.point_ani_fxt.set_marker(self.__ani_marker)
         self.point_ani_fxt.set_markersize(self.__ani_markersize)
@@ -218,9 +218,9 @@ class MBDynJntPlot:
         return self.point_ani_fxt,
 
     def update_points_fyt(self, num):     
-        node_label = self.animation_label["Fy(t)"]
+        joint_label = self.animation_label["Fy(t)"]
         t = self.time
-        y = self.data[node_label].get("reaction_force_Y_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
 
         self.point_ani_fyt.set_marker(self.__ani_marker)
         self.point_ani_fyt.set_markersize(self.__ani_markersize)
@@ -230,9 +230,9 @@ class MBDynJntPlot:
         return self.point_ani_fyt,
 
     def update_points_fzt(self, num):     
-        node_label = self.animation_label["Fz(t)"]
+        joint_label = self.animation_label["Fz(t)"]
         t = self.time
-        z = self.data[node_label].get("reaction_force_Z_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
 
         self.point_ani_fzt.set_marker(self.__ani_marker)
         self.point_ani_fzt.set_markersize(self.__ani_markersize)
@@ -242,9 +242,9 @@ class MBDynJntPlot:
         return self.point_ani_fzt,
     
     def update_points_fxfy(self, num):     
-        node_label = self.animation_label["Fx(Fy)"]
-        x = self.data[node_label].get("reaction_force_X_local")
-        y = self.data[node_label].get("reaction_force_Y_local")
+        joint_label = self.animation_label["Fx(Fy)"]
+        x = self.data[joint_label].get("reaction_force_X_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
 
         self.point_ani_fxfy.set_marker(self.__ani_marker)
         self.point_ani_fxfy.set_markersize(self.__ani_markersize)
@@ -254,9 +254,9 @@ class MBDynJntPlot:
         return self.point_ani_fxfy,
     
     def update_points_fxfz(self, num):     
-        node_label = self.animation_label["Fx(Fz)"]
-        x = self.data[node_label].get("reaction_force_X_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        joint_label = self.animation_label["Fx(Fz)"]
+        x = self.data[joint_label].get("reaction_force_X_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
 
         self.point_ani_fxfz.set_marker(self.__ani_marker)
         self.point_ani_fxfz.set_markersize(self.__ani_markersize)
@@ -266,9 +266,9 @@ class MBDynJntPlot:
         return self.point_ani_fxfz,
 
     def update_points_fyfx(self, num):     
-        node_label = self.animation_label["Fy(Fx)"]
-        x = self.data[node_label].get("reaction_force_X_local")
-        y = self.data[node_label].get("reaction_force_Y_local")
+        joint_label = self.animation_label["Fy(Fx)"]
+        x = self.data[joint_label].get("reaction_force_X_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
 
         self.point_ani_fyfx.set_marker(self.__ani_marker)
         self.point_ani_fyfx.set_markersize(self.__ani_markersize)
@@ -278,9 +278,9 @@ class MBDynJntPlot:
         return self.point_ani_fyfx,
     
     def update_points_fyfz(self, num):     
-        node_label = self.animation_label["Fy(Fz)"]
-        y = self.data[node_label].get("reaction_force_Y_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        joint_label = self.animation_label["Fy(Fz)"]
+        y = self.data[joint_label].get("reaction_force_Y_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
 
         self.point_ani_fyfz.set_marker(self.__ani_marker)
         self.point_ani_fyfz.set_markersize(self.__ani_markersize)
@@ -290,9 +290,9 @@ class MBDynJntPlot:
         return self.point_ani_fyfz,
 
     def update_points_fzfx(self, num):     
-        node_label = self.animation_label["Fz(Fx)"]
-        x = self.data[node_label].get("reaction_force_X_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        joint_label = self.animation_label["Fz(Fx)"]
+        x = self.data[joint_label].get("reaction_force_X_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
 
         self.point_ani_fzfx.set_marker(self.__ani_marker)
         self.point_ani_fzfx.set_markersize(self.__ani_markersize)
@@ -302,9 +302,9 @@ class MBDynJntPlot:
         return self.point_ani_fzfx,
     
     def update_points_fzfy(self, num):     
-        node_label = self.animation_label["Fz(Fy)"]
-        y = self.data[node_label].get("reaction_force_Y_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        joint_label = self.animation_label["Fz(Fy)"]
+        y = self.data[joint_label].get("reaction_force_Y_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
 
         self.point_ani_fzfy.set_marker(self.__ani_marker)
         self.point_ani_fzfy.set_markersize(self.__ani_markersize)
@@ -314,11 +314,11 @@ class MBDynJntPlot:
         return self.point_ani_fzfy,
     
     def update_points_ft(self, num):     
-        node_label = self.animation_label["F(t)"]
+        joint_label = self.animation_label["F(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_force_X_local")
-        y = self.data[node_label].get("reaction_force_Y_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+        x = self.data[joint_label].get("reaction_force_X_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
         
         # Ftx
         self.point_ani_ftx.set_marker(self.__ani_marker)
@@ -345,10 +345,10 @@ class MBDynJntPlot:
     
 # --- Animation Velocity ---
     def update_points_ff3d(self, num):
-        node_label = self.animation_label["FF3D"]
-        x = self.data[node_label].get("reaction_force_X_global")
-        y = self.data[node_label].get("reaction_force_Y_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        joint_label = self.animation_label["FF3D"]
+        x = self.data[joint_label].get("reaction_force_X_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
         
         self.point_ani_ff3d.set_marker(self.__ani_marker)
         self.point_ani_ff3d.set_markersize(self.__ani_markersize)
@@ -359,9 +359,9 @@ class MBDynJntPlot:
         return self.point_ani_ff3d,
     
     def update_points_ffxt(self, num):     
-        node_label = self.animation_label["FFx(t)"]
+        joint_label = self.animation_label["FFx(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_force_X_global")
+        x = self.data[joint_label].get("reaction_force_X_global")
 
         self.point_ani_ffxt.set_marker(self.__ani_marker)
         self.point_ani_ffxt.set_markersize(self.__ani_markersize)
@@ -371,9 +371,9 @@ class MBDynJntPlot:
         return self.point_ani_ffxt,
 
     def update_points_ffyt(self, num):     
-        node_label = self.animation_label["FFy(t)"]
+        joint_label = self.animation_label["FFy(t)"]
         t = self.time
-        y = self.data[node_label].get("reaction_force_Y_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
 
         self.point_ani_ffyt.set_marker(self.__ani_marker)
         self.point_ani_ffyt.set_markersize(self.__ani_markersize)
@@ -383,9 +383,9 @@ class MBDynJntPlot:
         return self.point_ani_ffyt,
 
     def update_points_ffzt(self, num):     
-        node_label = self.animation_label["FFz(t)"]
+        joint_label = self.animation_label["FFz(t)"]
         t = self.time
-        z = self.data[node_label].get("reaction_force_Z_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
 
         self.point_ani_ffzt.set_marker(self.__ani_marker)
         self.point_ani_ffzt.set_markersize(self.__ani_markersize)
@@ -395,9 +395,9 @@ class MBDynJntPlot:
         return self.point_ani_ffzt,
 
     def update_points_ffxffy(self, num):     
-        node_label = self.animation_label["FFx(FFy)"]
-        x = self.data[node_label].get("reaction_force_X_global")
-        y = self.data[node_label].get("reaction_force_Y_global")
+        joint_label = self.animation_label["FFx(FFy)"]
+        x = self.data[joint_label].get("reaction_force_X_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
 
         self.point_ani_ffxffy.set_marker(self.__ani_marker)
         self.point_ani_ffxffy.set_markersize(self.__ani_markersize)
@@ -407,9 +407,9 @@ class MBDynJntPlot:
         return self.point_ani_ffxffy,
 
     def update_points_ffxffz(self, num):     
-        node_label = self.animation_label["FFx(Vz)"]
-        x = self.data[node_label].get("reaction_force_X_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        joint_label = self.animation_label["FFx(Vz)"]
+        x = self.data[joint_label].get("reaction_force_X_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
 
         self.point_ani_ffxffz.set_marker(self.__ani_marker)
         self.point_ani_ffxffz.set_markersize(self.__ani_markersize)
@@ -419,9 +419,9 @@ class MBDynJntPlot:
         return self.point_ani_ffxffz,
 
     def update_points_ffyffx(self, num):     
-        node_label = self.animation_label["FFy(FFx)"]
-        x = self.data[node_label].get("reaction_force_X_global")
-        y = self.data[node_label].get("reaction_force_Y_global")
+        joint_label = self.animation_label["FFy(FFx)"]
+        x = self.data[joint_label].get("reaction_force_X_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
 
         self.point_ani_ffyffx.set_marker(self.__ani_marker)
         self.point_ani_ffyffx.set_markersize(self.__ani_markersize)
@@ -431,9 +431,9 @@ class MBDynJntPlot:
         return self.point_ani_ffyffx,
 
     def update_points_ffyffz(self, num):     
-        node_label = self.animation_label["FFy(FFz)"]
-        y = self.data[node_label].get("reaction_force_Y_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        joint_label = self.animation_label["FFy(FFz)"]
+        y = self.data[joint_label].get("reaction_force_Y_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
 
         self.point_ani_ffyffz.set_marker(self.__ani_marker)
         self.point_ani_ffyffz.set_markersize(self.__ani_markersize)
@@ -443,9 +443,9 @@ class MBDynJntPlot:
         return self.point_ani_ffyffz,
 
     def update_points_ffzffx(self, num):     
-        node_label = self.animation_label["FFz(FFx)"]
-        x = self.data[node_label].get("reaction_force_X_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        joint_label = self.animation_label["FFz(FFx)"]
+        x = self.data[joint_label].get("reaction_force_X_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
 
         self.point_ani_ffzffx.set_marker(self.__ani_marker)
         self.point_ani_ffzffx.set_markersize(self.__ani_markersize)
@@ -455,9 +455,9 @@ class MBDynJntPlot:
         return self.point_ani_ffzffx,
 
     def update_points_ffzffy(self, num):     
-        node_label = self.animation_label["FFz(FFy)"]
-        y = self.data[node_label].get("reaction_force_Y_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        joint_label = self.animation_label["FFz(FFy)"]
+        y = self.data[joint_label].get("reaction_force_Y_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
 
         self.point_ani_ffzffy.set_marker(self.__ani_marker)
         self.point_ani_ffzffy.set_markersize(self.__ani_markersize)
@@ -467,11 +467,11 @@ class MBDynJntPlot:
         return self.point_ani_ffzffy,
 
     def update_points_fft(self, num):     
-        node_label = self.animation_label["FF(t)"]
+        joint_label = self.animation_label["FF(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_force_X_global")
-        y = self.data[node_label].get("reaction_force_Y_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+        x = self.data[joint_label].get("reaction_force_X_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
         
         # FFtx
         self.point_ani_fftx.set_marker(self.__ani_marker)
@@ -498,10 +498,10 @@ class MBDynJntPlot:
     
 # --- Animation Torque ---
     def update_points_t3d(self, num):
-        node_label = self.animation_label["T3D"]
-        x = self.data[node_label].get("reaction_couple_X_local")
-        y = self.data[node_label].get("reaction_couple_Y_local")
-        z = self.data[node_label].get("reaction_couple_Z_local")
+        joint_label = self.animation_label["T3D"]
+        x = self.data[joint_label].get("reaction_couple_X_local")
+        y = self.data[joint_label].get("reaction_couple_Y_local")
+        z = self.data[joint_label].get("reaction_couple_Z_local")
         
         self.point_ani_t3d.set_marker(self.__ani_marker)
         self.point_ani_t3d.set_markersize(self.__ani_markersize)
@@ -512,9 +512,9 @@ class MBDynJntPlot:
         return self.point_ani_t3d,
     
     def update_points_txt(self, num):     
-        node_label = self.animation_label["Tx(t)"]
+        joint_label = self.animation_label["Tx(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_couple_X_local")
+        x = self.data[joint_label].get("reaction_couple_X_local")
 
         self.point_ani_txt.set_marker(self.__ani_marker)
         self.point_ani_txt.set_markersize(self.__ani_markersize)
@@ -524,9 +524,9 @@ class MBDynJntPlot:
         return self.point_ani_txt,
 
     def update_points_tyt(self, num):     
-        node_label = self.animation_label["Ty(t)"]
+        joint_label = self.animation_label["Ty(t)"]
         t = self.time
-        y = self.data[node_label].get("reaction_couple_Y_local")
+        y = self.data[joint_label].get("reaction_couple_Y_local")
 
         self.point_ani_tyt.set_marker(self.__ani_marker)
         self.point_ani_tyt.set_markersize(self.__ani_markersize)
@@ -536,9 +536,9 @@ class MBDynJntPlot:
         return self.point_ani_tyt,
 
     def update_points_tzt(self, num):     
-        node_label = self.animation_label["Tz(t)"]
+        joint_label = self.animation_label["Tz(t)"]
         t = self.time
-        z = self.data[node_label].get("reaction_couple_Z_local")
+        z = self.data[joint_label].get("reaction_couple_Z_local")
 
         self.point_ani_tzt.set_marker(self.__ani_marker)
         self.point_ani_tzt.set_markersize(self.__ani_markersize)
@@ -548,11 +548,11 @@ class MBDynJntPlot:
         return self.point_ani_tzt,
 
     def update_points_tt(self, num):     
-        node_label = self.animation_label["T(t)"]
+        joint_label = self.animation_label["T(t)"]
         t = self.time
-        x = self.data[node_label].get("reaction_couple_X_local")
-        y = self.data[node_label].get("reaction_couple_Y_local")
-        z = self.data[node_label].get("reaction_couple_Z_local")
+        x = self.data[joint_label].get("reaction_couple_X_local")
+        y = self.data[joint_label].get("reaction_couple_Y_local")
+        z = self.data[joint_label].get("reaction_couple_Z_local")
         
         # Tx
         self.point_ani_ttx.set_marker(self.__ani_marker)
@@ -578,12 +578,12 @@ class MBDynJntPlot:
         return self.point_ani_ttx, self.point_ani_tty, self.point_ani_ttz,
     
 # --- Plot reaction force in local frame ---        
-    def Fx(self,t=None,node_label="1"):
+    def Fx(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_X_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_X_local")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_force_X_local")[:length],
+                     self.data[joint_label].get("reaction_force_X_local")[:length],
                      label='Fx(t)',
                      color='red')
             plt.ylabel('Fx[N]')
@@ -591,11 +591,11 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of local reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('X component of local reaction force as function of time. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fx(t)"] = node_label
+                self.animation_label["Fx(t)"] = joint_label
                 self.point_ani_fxt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_force_X_local")[0],
+                                               self.data[joint_label].get("reaction_force_X_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fxt,
@@ -605,10 +605,10 @@ class MBDynJntPlot:
                                               blit     = True)           
             plt.show()
         if t == "Fy":
-            length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Y_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_local")), len(self.data[joint_label].get("reaction_force_Y_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Y_local")[:length],
-                     self.data[node_label].get("reaction_force_X_local")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_Y_local")[:length],
+                     self.data[joint_label].get("reaction_force_X_local")[:length],
                      label='Fx(Fy)',
                      color='black')
             plt.ylabel('Fx[N]')
@@ -616,11 +616,11 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of local reaction force as function of Y component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('X component of local reaction force as function of Y component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fx(Fy)"] = node_label
-                self.point_ani_fxfy, = plt.plot(self.data[node_label].get("reaction_force_Y_local")[0],
-                                                self.data[node_label].get("reaction_force_X_local")[0],
+                self.animation_label["Fx(Fy)"] = joint_label
+                self.point_ani_fxfy, = plt.plot(self.data[joint_label].get("reaction_force_Y_local")[0],
+                                                self.data[joint_label].get("reaction_force_X_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fxfy,
@@ -630,19 +630,19 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "Fz":
-            length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Z_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_local")), len(self.data[joint_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Z_local")[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Fx(Fz)',color='black')
+            plt.plot(self.data[joint_label].get("reaction_force_Z_local")[:length],self.data[joint_label].get("reaction_force_X_local")[:length],label='Fx(Fz)',color='black')
             plt.ylabel('Fx[N]')
             plt.xlabel('Fz[N]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of local reaction force as function of Z component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('X component of local reaction force as function of Z component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fx(Fz)"] = node_label
-                self.point_ani_fxfz, = plt.plot(self.data[node_label].get("reaction_force_Z_local")[0],
-                                                self.data[node_label].get("reaction_force_X_local")[0],
+                self.animation_label["Fx(Fz)"] = joint_label
+                self.point_ani_fxfz, = plt.plot(self.data[joint_label].get("reaction_force_Z_local")[0],
+                                                self.data[joint_label].get("reaction_force_X_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fxfz,
@@ -652,21 +652,21 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def Fy(self,t=None,node_label="1"):
+    def Fy(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_Y_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_Y_local")))
             fig = plt.figure()
-            plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Py(t)',color='green')
+            plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Y_local")[:length],label='Py(t)',color='green')
             plt.ylabel('Fy[N]')
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of local reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('Y component of local reaction force as function of time. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fy(t)"] = node_label
+                self.animation_label["Fy(t)"] = joint_label
                 self.point_ani_fyt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_force_Y_local")[0],
+                                               self.data[joint_label].get("reaction_force_Y_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fyt,
@@ -676,19 +676,19 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "Fx":
-            length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Y_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_local")), len(self.data[joint_label].get("reaction_force_Y_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Fy(Fx)',color='black')
+            plt.plot(self.data[joint_label].get("reaction_force_X_local")[:length],self.data[joint_label].get("reaction_force_Y_local")[:length],label='Fy(Fx)',color='black')
             plt.ylabel('Fy[N]')
             plt.xlabel('Fx[N]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of local reaction force as function of X component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('Y component of local reaction force as function of X component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fy(Fx)"] = node_label
-                self.point_ani_fyfx, = plt.plot(self.data[node_label].get("reaction_force_X_local")[0],
-                                                self.data[node_label].get("reaction_force_Y_local")[0],
+                self.animation_label["Fy(Fx)"] = joint_label
+                self.point_ani_fyfx, = plt.plot(self.data[joint_label].get("reaction_force_X_local")[0],
+                                                self.data[joint_label].get("reaction_force_Y_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fyfx,
@@ -698,19 +698,19 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "Fz":
-            length = min(len(self.data[node_label].get("reaction_force_Y_local")), len(self.data[node_label].get("reaction_force_Z_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_Y_local")), len(self.data[joint_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Z_local")[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Py(Pz)',color='black')
+            plt.plot(self.data[joint_label].get("reaction_force_Z_local")[:length],self.data[joint_label].get("reaction_force_Y_local")[:length],label='Py(Pz)',color='black')
             plt.ylabel('Fy[N]')
             plt.xlabel('Fz[N]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of local reaction force as function of Z component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('Y component of local reaction force as function of Z component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fy(Fz)"] = node_label
-                self.point_ani_fyfz, = plt.plot(self.data[node_label].get("reaction_force_Z_local")[0],
-                                                self.data[node_label].get("reaction_force_Y_local")[0],
+                self.animation_label["Fy(Fz)"] = joint_label
+                self.point_ani_fyfz, = plt.plot(self.data[joint_label].get("reaction_force_Z_local")[0],
+                                                self.data[joint_label].get("reaction_force_Y_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fyfz,
@@ -720,21 +720,21 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def Fz(self,t=None,node_label="1"):
+    def Fz(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_Z_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Pz(t)',color='blue')
+            plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Z_local")[:length],label='Pz(t)',color='blue')
             plt.ylabel('Fz[N]')
             plt.xlabel('t[s]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of local reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('Z component of local reaction force as function of time. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fz(t)"] = node_label
+                self.animation_label["Fz(t)"] = joint_label
                 self.point_ani_fzt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_force_Z_local")[0],
+                                               self.data[joint_label].get("reaction_force_Z_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fzt,
@@ -744,19 +744,19 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "Fx":
-            length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Z_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_local")), len(self.data[joint_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Fz(Fx)',color='black')
+            plt.plot(self.data[joint_label].get("reaction_force_X_local")[:length],self.data[joint_label].get("reaction_force_Z_local")[:length],label='Fz(Fx)',color='black')
             plt.ylabel('Fz[N]')
             plt.xlabel('Fx[N]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of local reaction force as function of X component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('Z component of local reaction force as function of X component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fz(Fx)"] = node_label
-                self.point_ani_fzfx, = plt.plot(self.data[node_label].get("reaction_force_X_local")[0],
-                                                self.data[node_label].get("reaction_force_Z_local")[0],
+                self.animation_label["Fz(Fx)"] = joint_label
+                self.point_ani_fzfx, = plt.plot(self.data[joint_label].get("reaction_force_X_local")[0],
+                                                self.data[joint_label].get("reaction_force_Z_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fzfx,
@@ -766,19 +766,19 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "Fy":
-            length = min(len(self.data[node_label].get("reaction_force_Y_local")), len(self.data[node_label].get("reaction_force_Z_local")))
+            length = min(len(self.data[joint_label].get("reaction_force_Y_local")), len(self.data[joint_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Y_local")[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Py(Pz)',color='black')
+            plt.plot(self.data[joint_label].get("reaction_force_Y_local")[:length],self.data[joint_label].get("reaction_force_Z_local")[:length],label='Py(Pz)',color='black')
             plt.ylabel('Fz[N]')
             plt.xlabel('Fy[N]')
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of local reaction force as function of Y component of local reaction force. Joint: '+ node_label)
+            plt.suptitle('Z component of local reaction force as function of Y component of local reaction force. Joint: '+ joint_label)
             if self.enableAnimation == True:
-                self.animation_label["Fz(Fy)"] = node_label
-                self.point_ani_fzfy, = plt.plot(self.data[node_label].get("reaction_force_Y_local")[0],
-                                                self.data[node_label].get("reaction_force_Z_local")[0],
+                self.animation_label["Fz(Fy)"] = joint_label
+                self.point_ani_fzfy, = plt.plot(self.data[joint_label].get("reaction_force_Y_local")[0],
+                                                self.data[joint_label].get("reaction_force_Z_local")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_fzfy,
@@ -788,30 +788,30 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def F(self, node_label="1"):
-        length = min(len(self.time), len(self.data[node_label].get("reaction_force_X_local")))
-        length = min(length, len(self.data[node_label].get("reaction_force_Y_local")))
-        length = min(length, len(self.data[node_label].get("reaction_force_Z_local")))
+    def F(self, joint_label="1"):
+        length = min(len(self.time), len(self.data[joint_label].get("reaction_force_X_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_force_Y_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_force_Z_local")))
         fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Fx(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Fy(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Fz(t)',color='blue')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_X_local")[:length],label='Fx(t)',color='red')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Y_local")[:length],label='Fy(t)',color='green')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Z_local")[:length],label='Fz(t)',color='blue')
         plt.ylabel('F[N]')
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('Local reaction force as function of time. Joint: '+ node_label)
+        plt.suptitle('Local reaction force as function of time. Joint: '+ joint_label)
         if self.enableAnimation == True:
-            self.animation_label["F(t)"] = node_label
+            self.animation_label["F(t)"] = joint_label
             self.point_ani_ftx, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_force_X_local")[0],
+                                           self.data[joint_label].get("reaction_force_X_local")[0],
                                            "ro")
             self.point_ani_fty, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_force_Y_local")[0],
+                                           self.data[joint_label].get("reaction_force_Y_local")[0],
                                            "ro")
             self.point_ani_ftz, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_force_Z_local")[0],
+                                           self.data[joint_label].get("reaction_force_Z_local")[0],
                                            "ro") 
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_ft,
@@ -821,10 +821,10 @@ class MBDynJntPlot:
                                           blit     = True)
         plt.show()
 
-    def F3D(self, node_label="1"):
-        x = self.data[node_label].get("reaction_force_X_local")
-        y = self.data[node_label].get("reaction_force_Y_local")
-        z = self.data[node_label].get("reaction_force_Z_local")
+    def F3D(self, joint_label="1"):
+        x = self.data[joint_label].get("reaction_force_X_local")
+        y = self.data[joint_label].get("reaction_force_Y_local")
+        z = self.data[joint_label].get("reaction_force_Z_local")
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         #ax = fig.add_subplot(1, 1, 1, projection='3d')
@@ -836,9 +836,9 @@ class MBDynJntPlot:
         plt.legend()
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('3D local reaction force. Joint: '+ node_label)
+        plt.suptitle('3D local reaction force. Joint: '+ joint_label)
         if self.enableAnimation == True:
-            self.animation_label["F3D"] = node_label
+            self.animation_label["F3D"] = joint_label
             self.point_ani_f3d, = ax.plot([x[0]], [y[0]], [z[0]], "ro")
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_f3d,
@@ -849,12 +849,12 @@ class MBDynJntPlot:
         plt.show()
         
 # --- FORCE RELATIVE TO GLOBAL REFERENCE FRAME (FF) ---
-    def FFx(self,t=None,node_label="1"):
+    def FFx(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_X_global")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_X_global")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_force_X_global")[:length],
+                     self.data[joint_label].get("reaction_force_X_global")[:length],
                      label='FFx(t)',
                      color='red')
             plt.ylabel('FFx[N]')
@@ -862,7 +862,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of global reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('X component of global reaction force as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -872,9 +872,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1)          
             if self.enableAnimation == True:
-                self.animation_label["FFx(t)"] = node_label
+                self.animation_label["FFx(t)"] = joint_label
                 self.point_ani_ffxt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_force_X_global")[0],
+                                               self.data[joint_label].get("reaction_force_X_global")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffxt,
@@ -884,10 +884,10 @@ class MBDynJntPlot:
                                               blit     = True)           
             plt.show()
         if t == "FFy":
-            length = min(len(self.data[node_label].get("reaction_force_X_global")), len(self.data[node_label].get("reaction_force_Y_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_global")), len(self.data[joint_label].get("reaction_force_Y_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Y_global")[:length],
-                     self.data[node_label].get("reaction_force_X_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_Y_global")[:length],
+                     self.data[joint_label].get("reaction_force_X_global")[:length],
                      label='FFx(FFy)',
                      color='black')
             plt.ylabel('FFx[N]')
@@ -895,7 +895,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of global reaction force as function of Y component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('X component of global reaction force as function of Y component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -905,9 +905,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFx(FFy)"] = node_label
-                self.point_ani_ffxffy, = plt.plot(self.data[node_label].get("reaction_force_Y_global")[0],
-                                                  self.data[node_label].get("reaction_force_X_global")[0],
+                self.animation_label["FFx(FFy)"] = joint_label
+                self.point_ani_ffxffy, = plt.plot(self.data[joint_label].get("reaction_force_Y_global")[0],
+                                                  self.data[joint_label].get("reaction_force_X_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffxffy,
@@ -917,10 +917,10 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "FFz":
-            length = min(len(self.data[node_label].get("reaction_force_X_global")), len(self.data[node_label].get("reaction_force_Z_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_global")), len(self.data[joint_label].get("reaction_force_Z_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Z_global")[:length],
-                     self.data[node_label].get("reaction_force_X_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_Z_global")[:length],
+                     self.data[joint_label].get("reaction_force_X_global")[:length],
                      label='FFx(FFz)',
                      color='black')
             plt.ylabel('FFx[N]')
@@ -928,7 +928,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of global reaction force as function of Z component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('X component of global reaction force as function of Z component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -938,9 +938,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFx(FFz)"] = node_label
-                self.point_ani_ffxffz, = plt.plot(self.data[node_label].get("reaction_force_Z_global")[0],
-                                                  self.data[node_label].get("reaction_force_X_global")[0],
+                self.animation_label["FFx(FFz)"] = joint_label
+                self.point_ani_ffxffz, = plt.plot(self.data[joint_label].get("reaction_force_Z_global")[0],
+                                                  self.data[joint_label].get("reaction_force_X_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffxffz,
@@ -950,12 +950,12 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def FFy(self,t=None,node_label="1"):
+    def FFy(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_Y_global")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_Y_global")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_force_Y_global")[:length],
+                     self.data[joint_label].get("reaction_force_Y_global")[:length],
                      label='FFy(t)',
                      color='green')
             plt.ylabel('FFy[N]')
@@ -963,7 +963,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of global reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('Y component of global reaction force as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -973,9 +973,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFy(t)"] = node_label
+                self.animation_label["FFy(t)"] = joint_label
                 self.point_ani_ffyt, = plt.plot(self.time[0],
-                                                self.data[node_label].get("reaction_force_Y_global")[0],
+                                                self.data[joint_label].get("reaction_force_Y_global")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffyt,
@@ -985,10 +985,10 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "FFx":
-            length = min(len(self.data[node_label].get("reaction_force_X_global")), len(self.data[node_label].get("reaction_force_Y_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_global")), len(self.data[joint_label].get("reaction_force_Y_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_global")[:length],
-                     self.data[node_label].get("reaction_force_Y_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_X_global")[:length],
+                     self.data[joint_label].get("reaction_force_Y_global")[:length],
                      label='FFy(FFx)',
                      color='black')
             plt.ylabel('FFy[N]')
@@ -996,7 +996,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of global reaction force as function of X component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('Y component of global reaction force as function of X component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1006,9 +1006,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFy(FFx)"] = node_label
-                self.point_ani_ffyffx, = plt.plot(self.data[node_label].get("reaction_force_X_global")[0],
-                                                  self.data[node_label].get("reaction_force_Y_global")[0],
+                self.animation_label["FFy(FFx)"] = joint_label
+                self.point_ani_ffyffx, = plt.plot(self.data[joint_label].get("reaction_force_X_global")[0],
+                                                  self.data[joint_label].get("reaction_force_Y_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffyffx,
@@ -1018,10 +1018,10 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "FFz":
-            length = min(len(self.data[node_label].get("reaction_force_Y_global")), len(self.data[node_label].get("reaction_force_Z_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_Y_global")), len(self.data[joint_label].get("reaction_force_Z_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Z_global")[:length],
-                     self.data[node_label].get("reaction_force_Y_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_Z_global")[:length],
+                     self.data[joint_label].get("reaction_force_Y_global")[:length],
                      label='FFy(FFz)',
                      color='black')
             plt.ylabel('FFy[N]')
@@ -1029,7 +1029,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of global reaction force as function of Z component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('Y component of global reaction force as function of Z component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1039,9 +1039,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFy(FFz)"] = node_label
-                self.point_ani_ffyffz, = plt.plot(self.data[node_label].get("reaction_force_Z_global")[0],
-                                                  self.data[node_label].get("reaction_force_Y_global")[0],
+                self.animation_label["FFy(FFz)"] = joint_label
+                self.point_ani_ffyffz, = plt.plot(self.data[joint_label].get("reaction_force_Z_global")[0],
+                                                  self.data[joint_label].get("reaction_force_Y_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffyffz,
@@ -1051,12 +1051,12 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def FFz(self,t=None,node_label="1"):
+    def FFz(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_force_Z_global")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_force_Z_global")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_force_Z_global")[:length],
+                     self.data[joint_label].get("reaction_force_Z_global")[:length],
                      label='FFz(t)',
                      color='blue')
             plt.ylabel('FFz[N]')
@@ -1064,7 +1064,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of global reaction force as function of time. Joint: '+ node_label)
+            plt.suptitle('Z component of global reaction force as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1074,9 +1074,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFz(t)"] = node_label
+                self.animation_label["FFz(t)"] = joint_label
                 self.point_ani_ffzt, = plt.plot(self.time[0],
-                                                self.data[node_label].get("reaction_force_Z_global")[0],
+                                                self.data[joint_label].get("reaction_force_Z_global")[0],
                                                 "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffzt,
@@ -1086,10 +1086,10 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "FFx":
-            length = min(len(self.data[node_label].get("reaction_force_X_global")), len(self.data[node_label].get("reaction_force_Z_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_X_global")), len(self.data[joint_label].get("reaction_force_Z_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_global")[:length],
-                     self.data[node_label].get("reaction_force_Z_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_X_global")[:length],
+                     self.data[joint_label].get("reaction_force_Z_global")[:length],
                      label='FFz(FFx)',
                      color='black')
             plt.ylabel('FFz[N]')
@@ -1097,7 +1097,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of global reaction force as function of X component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('Z component of global reaction force as function of X component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1107,9 +1107,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFz(FFx)"] = node_label
-                self.point_ani_ffzffx, = plt.plot(self.data[node_label].get("reaction_force_X_global")[0],
-                                                  self.data[node_label].get("reaction_force_Z_global")[0],
+                self.animation_label["FFz(FFx)"] = joint_label
+                self.point_ani_ffzffx, = plt.plot(self.data[joint_label].get("reaction_force_X_global")[0],
+                                                  self.data[joint_label].get("reaction_force_Z_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffzffx,
@@ -1119,10 +1119,10 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
         if t == "FFy":
-            length = min(len(self.data[node_label].get("reaction_force_Y_global")), len(self.data[node_label].get("reaction_force_Z_global")))
+            length = min(len(self.data[joint_label].get("reaction_force_Y_global")), len(self.data[joint_label].get("reaction_force_Z_global")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Y_global")[:length],
-                     self.data[node_label].get("reaction_force_Z_global")[:length],
+            plt.plot(self.data[joint_label].get("reaction_force_Y_global")[:length],
+                     self.data[joint_label].get("reaction_force_Z_global")[:length],
                      label='FFz(FFy)',
                      color='black')
             plt.ylabel('FFz[N]')
@@ -1130,7 +1130,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of global reaction force as function of Y component of global reaction force. Joint: '+ node_label)
+            plt.suptitle('Z component of global reaction force as function of Y component of global reaction force. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1140,9 +1140,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["FFz(FFy)"] = node_label
-                self.point_ani_ffzffy, = plt.plot(self.data[node_label].get("reaction_force_Y_global")[0],
-                                                  self.data[node_label].get("reaction_force_Z_global")[0],
+                self.animation_label["FFz(FFy)"] = joint_label
+                self.point_ani_ffzffy, = plt.plot(self.data[joint_label].get("reaction_force_Y_global")[0],
+                                                  self.data[joint_label].get("reaction_force_Z_global")[0],
                                                   "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ffzffy,
@@ -1152,30 +1152,30 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def FF(self, node_label="1"):
-        length = min(len(self.time), len(self.data[node_label].get("reaction_force_X_global")))
-        length = min(length, len(self.data[node_label].get("reaction_force_Y_global")))
-        length = min(length, len(self.data[node_label].get("reaction_force_Z_global")))
+    def FF(self, joint_label="1"):
+        length = min(len(self.time), len(self.data[joint_label].get("reaction_force_X_global")))
+        length = min(length, len(self.data[joint_label].get("reaction_force_Y_global")))
+        length = min(length, len(self.data[joint_label].get("reaction_force_Z_global")))
         fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_global")[:length],label='FFx(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_global")[:length],label='FFy(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_global")[:length],label='FFz(t)',color='blue')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_X_global")[:length],label='FFx(t)',color='red')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Y_global")[:length],label='FFy(t)',color='green')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_force_Z_global")[:length],label='FFz(t)',color='blue')
         plt.ylabel('FF[N]')
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('Global reaction force as function of time. Joint: '+ node_label)
+        plt.suptitle('Global reaction force as function of time. Joint: '+ joint_label)
         if self.enableAnimation == True:
-            self.animation_label["FF(t)"] = node_label
+            self.animation_label["FF(t)"] = joint_label
             self.point_ani_fftx, = plt.plot(self.time[0],
-                                            self.data[node_label].get("reaction_force_X_global")[0],
+                                            self.data[joint_label].get("reaction_force_X_global")[0],
                                             "ro")
             self.point_ani_ffty, = plt.plot(self.time[0],
-                                            self.data[node_label].get("reaction_force_Y_global")[0],
+                                            self.data[joint_label].get("reaction_force_Y_global")[0],
                                             "ro")
             self.point_ani_fftz, = plt.plot(self.time[0],
-                                            self.data[node_label].get("reaction_force_Z_global")[0],
+                                            self.data[joint_label].get("reaction_force_Z_global")[0],
                                             "ro") 
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_fft,
@@ -1185,10 +1185,10 @@ class MBDynJntPlot:
                                           blit     = True)
         plt.show()
 
-    def FF3D(self, node_label="1"):
-        x = self.data[node_label].get("reaction_force_X_global")
-        y = self.data[node_label].get("reaction_force_Y_global")
-        z = self.data[node_label].get("reaction_force_Z_global")
+    def FF3D(self, joint_label="1"):
+        x = self.data[joint_label].get("reaction_force_X_global")
+        y = self.data[joint_label].get("reaction_force_Y_global")
+        z = self.data[joint_label].get("reaction_force_Z_global")
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         #ax = fig.add_subplot(1, 1, 1, projection='3d')
@@ -1200,7 +1200,7 @@ class MBDynJntPlot:
         plt.legend()
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('3D global reaction force. Joint: '+ node_label)
+        plt.suptitle('3D global reaction force. Joint: '+ joint_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
             plt.xlim(xmin = xlim[0] - 0.1)
@@ -1214,7 +1214,7 @@ class MBDynJntPlot:
             ax.set_zlim(zlim[0] - 0.1,
                         zlim[1] + 0.1)
         if self.enableAnimation == True:
-            self.animation_label["FF3D"] = node_label
+            self.animation_label["FF3D"] = joint_label
             self.point_ani_ff3d, = ax.plot([x[0]], [y[0]], [z[0]], "ro")
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_ff3d,
@@ -1225,12 +1225,12 @@ class MBDynJntPlot:
         plt.show()
         
 # --- TORQUE IN LOCAL FRAME ---
-    def Tx(self,t=None,node_label="1"):
+    def Tx(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_X_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_couple_X_local")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_X_local")[:length],
+                     self.data[joint_label].get("reaction_couple_X_local")[:length],
                      label='Tx(t)',
                      color='red')
             plt.ylabel('Tx[N*m]')
@@ -1238,7 +1238,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('X component of global torque as function of time. Joint: '+ node_label)
+            plt.suptitle('X component of global torque as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1248,9 +1248,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1)          
             if self.enableAnimation == True:
-                self.animation_label["Tx(t)"] = node_label
+                self.animation_label["Tx(t)"] = joint_label
                 self.point_ani_txt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_X_local")[0],
+                                               self.data[joint_label].get("reaction_couple_X_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_txt,
@@ -1260,12 +1260,12 @@ class MBDynJntPlot:
                                               blit     = True)           
             plt.show()
 
-    def Ty(self,t=None,node_label="1"):
+    def Ty(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_Y_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_couple_Y_local")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_Y_local")[:length],
+                     self.data[joint_label].get("reaction_couple_Y_local")[:length],
                      label='Ty(t)',
                      color='green')
             plt.ylabel('Ty[N*m]')
@@ -1273,7 +1273,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Y component of global torque as function of time. Joint: '+ node_label)
+            plt.suptitle('Y component of global torque as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1283,9 +1283,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["Ty(t)"] = node_label
+                self.animation_label["Ty(t)"] = joint_label
                 self.point_ani_tyt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_Y_local")[0],
+                                               self.data[joint_label].get("reaction_couple_Y_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_tyt,
@@ -1295,12 +1295,12 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def Tz(self,t=None,node_label="1"):
+    def Tz(self,t=None,joint_label="1"):
         if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_Z_local")))
+            length = min(len(self.time), len(self.data[joint_label].get("reaction_couple_Z_local")))
             fig = plt.figure()
             plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_Z_local")[:length],
+                     self.data[joint_label].get("reaction_couple_Z_local")[:length],
                      label='Tz(t)',
                      color='blue')
             plt.ylabel('Tz[N*m]')
@@ -1308,7 +1308,7 @@ class MBDynJntPlot:
             plt.legend()            
             plt.grid()
             #plt.axis('equal')
-            plt.suptitle('Z component of global torque as function of time. Joint: '+ node_label)
+            plt.suptitle('Z component of global torque as function of time. Joint: '+ joint_label)
             xlim = plt.xlim()
             if math.fabs(xlim[0]-xlim[1]) < 1e-3:
                 plt.xlim(xmin = xlim[0] - 0.1)
@@ -1318,9 +1318,9 @@ class MBDynJntPlot:
                 plt.ylim(ymin = ylim[0] - 0.1)
                 plt.ylim(ymax = ylim[1] + 0.1) 
             if self.enableAnimation == True:
-                self.animation_label["yaw(t)"] = node_label
+                self.animation_label["yaw(t)"] = joint_label
                 self.point_ani_ozt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_Z_local")[0],
+                                               self.data[joint_label].get("reaction_couple_Z_local")[0],
                                                "ro")
                 ani = animation.FuncAnimation(fig      = fig,
                                               func     = self.update_points_ozt,
@@ -1330,20 +1330,20 @@ class MBDynJntPlot:
                                               blit     = True)
             plt.show()
 
-    def T(self, node_label="1"):
-        length = min(len(self.time), len(self.data[node_label].get("reaction_couple_X_local")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Y_local")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Z_local")))
+    def T(self, joint_label="1"):
+        length = min(len(self.time), len(self.data[joint_label].get("reaction_couple_X_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_couple_Y_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_couple_Z_local")))
         fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_X_local")[:length],label='Tx(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_Y_local")[:length],label='Ty(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_Z_local")[:length],label='Tz(t)',color='blue')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_couple_X_local")[:length],label='Tx(t)',color='red')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_couple_Y_local")[:length],label='Ty(t)',color='green')
+        plt.plot(self.time[:length],self.data[joint_label].get("reaction_couple_Z_local")[:length],label='Tz(t)',color='blue')
         plt.ylabel('T[N*m]')
         plt.xlabel('t[s]')
         plt.legend()            
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('Local torque as function of time. Joint: '+ node_label)
+        plt.suptitle('Local torque as function of time. Joint: '+ joint_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
             plt.xlim(xmin = xlim[0] - 0.1)
@@ -1353,15 +1353,15 @@ class MBDynJntPlot:
             plt.ylim(ymin = ylim[0] - 0.1)
             plt.ylim(ymax = ylim[1] + 0.1) 
         if self.enableAnimation == True:
-            self.animation_label["T(t)"] = node_label
+            self.animation_label["T(t)"] = joint_label
             self.point_ani_ttx, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_X_local")[0],
+                                           self.data[joint_label].get("reaction_couple_X_local")[0],
                                            "ro")
             self.point_ani_tty, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_Y_local")[0],
+                                           self.data[joint_label].get("reaction_couple_Y_local")[0],
                                            "ro")
             self.point_ani_ttz, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_Z_local")[0],
+                                           self.data[joint_label].get("reaction_couple_Z_local")[0],
                                            "ro") 
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_tt,
@@ -1371,10 +1371,10 @@ class MBDynJntPlot:
                                           blit     = True)
         plt.show()
 
-    def T3D(self, node_label="1"):
-        x = self.data[node_label].get("reaction_couple_X_local")
-        y = self.data[node_label].get("reaction_couple_Y_local")
-        z = self.data[node_label].get("reaction_couple_Z_local")
+    def T3D(self, joint_label="1"):
+        x = self.data[joint_label].get("reaction_couple_X_local")
+        y = self.data[joint_label].get("reaction_couple_Y_local")
+        z = self.data[joint_label].get("reaction_couple_Z_local")
         fig = plt.figure()
         ax = fig.gca(projection='3d')
         #ax = fig.add_subplot(1, 1, 1, projection='3d')
@@ -1386,7 +1386,7 @@ class MBDynJntPlot:
         plt.legend()
         plt.grid()
         #plt.axis('equal')
-        plt.suptitle('Local 3D torque. Joint: '+ node_label)
+        plt.suptitle('Local 3D torque. Joint: '+ joint_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
             plt.xlim(xmin = xlim[0] - 0.1)
@@ -1400,7 +1400,7 @@ class MBDynJntPlot:
             ax.set_zlim(zlim[0] - 0.1,
                         zlim[1] + 0.1)
         if self.enableAnimation == True:
-            self.animation_label["T3D"] = node_label
+            self.animation_label["T3D"] = joint_label
             self.point_ani_t3d, = ax.plot([x[0]], [y[0]], [z[0]], "ro")
             ani = animation.FuncAnimation(fig      = fig,
                                           func     = self.update_points_t3d,
@@ -1410,23 +1410,23 @@ class MBDynJntPlot:
                                           blit     = True)
         plt.show()
                
-    def ALL(self, node_label="1"):
-        length = min(len(self.time), len(self.data[node_label].get("reaction_couple_X_local")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Y_local")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Z_local")))
+    def ALL(self, joint_label="1"):
+        length = min(len(self.time), len(self.data[joint_label].get("reaction_couple_X_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_couple_Y_local")))
+        length = min(length, len(self.data[joint_label].get("reaction_couple_Z_local")))
         time= self.time[:length]
-        fx   = self.data[node_label].get("reaction_force_X_local")[:length]
-        fy   = self.data[node_label].get("reaction_force_Y_local")[:length]
-        fz   = self.data[node_label].get("reaction_force_Z_local")[:length]
-        tx   = self.data[node_label].get("reaction_couple_X_local")[:length]
-        ty   = self.data[node_label].get("reaction_couple_Y_local")[:length]
-        tz   = self.data[node_label].get("reaction_couple_Z_local")[:length]
-        f1x  = self.data[node_label].get("reaction_force_X_global")[:length]
-        f1y  = self.data[node_label].get("reaction_force_Y_global")[:length]
-        f1z  = self.data[node_label].get("reaction_force_Z_global")[:length]
-        t1x  = self.data[node_label].get("reaction_couple_X_global")[:length]
-        t1y  = self.data[node_label].get("reaction_couple_Y_global")[:length]
-        t1z  = self.data[node_label].get("reaction_couple_Z_global")[:length]
+        fx   = self.data[joint_label].get("reaction_force_X_local")[:length]
+        fy   = self.data[joint_label].get("reaction_force_Y_local")[:length]
+        fz   = self.data[joint_label].get("reaction_force_Z_local")[:length]
+        tx   = self.data[joint_label].get("reaction_couple_X_local")[:length]
+        ty   = self.data[joint_label].get("reaction_couple_Y_local")[:length]
+        tz   = self.data[joint_label].get("reaction_couple_Z_local")[:length]
+        f1x  = self.data[joint_label].get("reaction_force_X_global")[:length]
+        f1y  = self.data[joint_label].get("reaction_force_Y_global")[:length]
+        f1z  = self.data[joint_label].get("reaction_force_Z_global")[:length]
+        t1x  = self.data[joint_label].get("reaction_couple_X_global")[:length]
+        t1y  = self.data[joint_label].get("reaction_couple_Y_global")[:length]
+        t1z  = self.data[joint_label].get("reaction_couple_Z_global")[:length]
         fig = plt.figure()
         ax1 = fig.add_subplot(341)
         ax2 = fig.add_subplot(342)
@@ -1549,14 +1549,14 @@ class MBDynJntPlot:
         ax12.set_ylabel('global reaction torque z [N*m]')
         ax12.set_xlabel('t[s]')
         plt.legend()
-        plt.suptitle('Simulation results. Joint: '+ node_label)
+        plt.suptitle('Simulation results. Joint: '+ joint_label)
         plt.show()
             
 def main():
     mbd = MBDynJntPlot("pendulum")
     mbd.clear_run()
     if mbd.getData():
-        mbd.Fy(t="Fx",node_label="1002")
+        mbd.FF(joint_label="1002")
     
 if __name__ == '__main__':
     main()
