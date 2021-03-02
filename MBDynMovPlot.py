@@ -1057,7 +1057,6 @@ class MBDynMovPlot:
         ax.set_zlabel('z[m]')
         plt.legend()
         plt.grid()
-        plt.axis('equal')
         plt.suptitle('Global 3D trajectory. Node: '+ node_label)
         if self.enableAnimation == True:
             self.animation_label["P3D"] = node_label
@@ -1421,7 +1420,6 @@ class MBDynMovPlot:
         ax.set_zlabel('z[m/s]')
         plt.legend()
         plt.grid()
-        plt.axis('equal')
         plt.suptitle('Global 3D velocity. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -1805,7 +1803,6 @@ class MBDynMovPlot:
         ax.set_zlabel('Wz[rad/s]')
         plt.legend()
         plt.grid()
-        plt.axis('equal')
         plt.suptitle('Global 3D angular velocity. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:
@@ -2189,7 +2186,6 @@ class MBDynMovPlot:
         ax.set_zlabel('yaw[deg]')
         plt.legend()
         plt.grid()
-        plt.axis('equal')
         plt.suptitle('Absolute 3D orientation. Node: '+ node_label)
         xlim = plt.xlim()
         if math.fabs(xlim[0]-xlim[1]) < 1e-3:

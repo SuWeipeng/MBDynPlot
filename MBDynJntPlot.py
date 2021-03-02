@@ -140,6 +140,9 @@ class MBDynJntPlot:
                 for i, line in enumerate(file):
                     line_list = line.strip().split(" ")
                     
+                    if i<2:
+                        continue
+                    
                     # get corresponding information
                     node                       = line_list[jnt_file_structure.get("node_label")]
                     reaction_force_X_local     = np.float64(line_list[jnt_file_structure.get("reaction_force_X_local")])
@@ -574,7 +577,7 @@ class MBDynJntPlot:
         
         return self.point_ani_ttx, self.point_ani_tty, self.point_ani_ttz,
     
-# --- Plot Position ---        
+# --- Plot reaction force in local frame ---        
     def Fx(self,t=None,node_label="1"):
         if t == None:
             length = min(len(self.time), len(self.data[node_label].get("reaction_force_X_local")))
@@ -629,7 +632,7 @@ class MBDynJntPlot:
         if t == "Fz":
             length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_Z_local")[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Px(Pz)',color='black')
+            plt.plot(self.data[node_label].get("reaction_force_Z_local")[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Fx(Fz)',color='black')
             plt.ylabel('Fx[N]')
             plt.xlabel('Fz[N]')
             plt.legend()            
@@ -675,7 +678,7 @@ class MBDynJntPlot:
         if t == "Fx":
             length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Y_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Py(Px)',color='black')
+            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Fy(Fx)',color='black')
             plt.ylabel('Fy[N]')
             plt.xlabel('Fx[N]')
             plt.legend()            
@@ -743,7 +746,7 @@ class MBDynJntPlot:
         if t == "Fx":
             length = min(len(self.data[node_label].get("reaction_force_X_local")), len(self.data[node_label].get("reaction_force_Z_local")))
             fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Pz(Px)',color='black')
+            plt.plot(self.data[node_label].get("reaction_force_X_local")[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Fz(Fx)',color='black')
             plt.ylabel('Fz[N]')
             plt.xlabel('Fx[N]')
             plt.legend()            
@@ -790,9 +793,9 @@ class MBDynJntPlot:
         length = min(length, len(self.data[node_label].get("reaction_force_Y_local")))
         length = min(length, len(self.data[node_label].get("reaction_force_Z_local")))
         fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Px(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Py(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Pz(t)',color='blue')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_X_local")[:length],label='Fx(t)',color='red')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Y_local")[:length],label='Fy(t)',color='green')
+        plt.plot(self.time[:length],self.data[node_label].get("reaction_force_Z_local")[:length],label='Fz(t)',color='blue')
         plt.ylabel('F[N]')
         plt.xlabel('t[s]')
         plt.legend()            
@@ -1221,390 +1224,6 @@ class MBDynJntPlot:
                                           blit     = True)
         plt.show()
         
-# --- Plot Angular Velocity ---
-    def Wx(self,t=None,node_label="1"):
-        if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_X_global")))
-            fig = plt.figure()
-            plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_X_global")[:length],
-                     label='Wx(t)',
-                     color='red')
-            plt.ylabel('Wx[rad/s]')
-            plt.xlabel('t[s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('X global angular velocity component as function of time. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1)          
-            if self.enableAnimation == True:
-                self.animation_label["Wx(t)"] = node_label
-                self.point_ani_wxt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_X_global")[0],
-                                               "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wxt,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)           
-            plt.show()
-        if t == "Wy":
-            length = min(len(self.data[node_label].get("reaction_couple_X_global")), len(self.data[node_label].get("reaction_couple_Y_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_Y_global")[:length],
-                     self.data[node_label].get("reaction_couple_X_global")[:length],
-                     label='Wx(Wy)',
-                     color='black')
-            plt.ylabel('Wx[rad/s]')
-            plt.xlabel('Wy[rad/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('X global angular velocity component as function of Y global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wx(Wy)"] = node_label
-                self.point_ani_wxwy, = plt.plot(self.data[node_label].get("reaction_couple_Y_global")[0],
-                                                self.data[node_label].get("reaction_couple_X_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wxwy,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-        if t == "Wz":
-            length = min(len(self.data[node_label].get("reaction_couple_X_global")), len(self.data[node_label].get("reaction_couple_Z_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_Z_global")[:length],
-                     self.data[node_label].get("reaction_couple_X_global")[:length],
-                     label='Wx(Wz)',
-                     color='black')
-            plt.ylabel('Wx[m/s]')
-            plt.xlabel('Wz[m/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('X global angular velocity component as function of Z global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wx(Wz)"] = node_label
-                self.point_ani_wxwz, = plt.plot(self.data[node_label].get("reaction_couple_Z_global")[0],
-                                                self.data[node_label].get("reaction_couple_X_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wxwz,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-
-    def Wy(self,t=None,node_label="1"):
-        if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_Y_global")))
-            fig = plt.figure()
-            plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_Y_global")[:length],
-                     label='Wy(t)',
-                     color='green')
-            plt.ylabel('Wy[m/s]')
-            plt.xlabel('t[s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Y global angular velocity component as function of time. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wy(t)"] = node_label
-                self.point_ani_wyt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_Y_global")[0],
-                                               "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wyt,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-        if t == "Wx":
-            length = min(len(self.data[node_label].get("reaction_couple_X_global")), len(self.data[node_label].get("reaction_couple_Y_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_X_global")[:length],
-                     self.data[node_label].get("reaction_couple_Y_global")[:length],
-                     label='Wy(Wx)',
-                     color='black')
-            plt.ylabel('Wy[rad/s]')
-            plt.xlabel('Wx[rad/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Y global angular velocity component as function of X global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wy(Wx)"] = node_label
-                self.point_ani_wywx, = plt.plot(self.data[node_label].get("reaction_couple_X_global")[0],
-                                                self.data[node_label].get("reaction_couple_Y_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wywx,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-        if t == "Wz":
-            length = min(len(self.data[node_label].get("reaction_couple_Y_global")), len(self.data[node_label].get("reaction_couple_Z_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_Z_global")[:length],
-                     self.data[node_label].get("reaction_couple_Y_global")[:length],
-                     label='Wy(Wz)',
-                     color='black')
-            plt.ylabel('Wy[rad/s]')
-            plt.xlabel('Wz[rad/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Y global angular velocity component as function of Z global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wy(Wz)"] = node_label
-                self.point_ani_wywz, = plt.plot(self.data[node_label].get("reaction_couple_Z_global")[0],
-                                                self.data[node_label].get("reaction_couple_Y_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wywz,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-
-    def Wz(self,t=None,node_label="1"):
-        if t == None:
-            length = min(len(self.time), len(self.data[node_label].get("reaction_couple_Z_global")))
-            fig = plt.figure()
-            plt.plot(self.time[:length],
-                     self.data[node_label].get("reaction_couple_Z_global")[:length],
-                     label='Wz(t)',
-                     color='blue')
-            plt.ylabel('Wz[rad/s]')
-            plt.xlabel('t[s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Z global angular velocity component as function of time. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wz(t)"] = node_label
-                self.point_ani_wzt, = plt.plot(self.time[0],
-                                               self.data[node_label].get("reaction_couple_Z_global")[0],
-                                               "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wzt,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-        if t == "Wx":
-            length = min(len(self.data[node_label].get("reaction_couple_X_global")), len(self.data[node_label].get("reaction_couple_Z_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_X_global")[:length],
-                     self.data[node_label].get("reaction_couple_Z_global")[:length],
-                     label='Wz(Wx)',
-                     color='black')
-            plt.ylabel('Wz[m/s]')
-            plt.xlabel('Wx[m/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Z global angular velocity component as function of X global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wz(Wx)"] = node_label
-                self.point_ani_wzwx, = plt.plot(self.data[node_label].get("reaction_couple_X_global")[0],
-                                                self.data[node_label].get("reaction_couple_Z_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wzwx,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-        if t == "Wy":
-            length = min(len(self.data[node_label].get("reaction_couple_Y_global")), len(self.data[node_label].get("reaction_couple_Z_global")))
-            fig = plt.figure()
-            plt.plot(self.data[node_label].get("reaction_couple_Y_global")[:length],
-                     self.data[node_label].get("reaction_couple_Z_global")[:length],
-                     label='Wz(Wy)',
-                     color='black')
-            plt.ylabel('Wz[rad/s]')
-            plt.xlabel('Wy[rad/s]')
-            plt.legend()            
-            plt.grid()
-            #plt.axis('equal')
-            plt.suptitle('Z global angular velocity component as function of Y global angular velocity component. Node: '+ node_label)
-            xlim = plt.xlim()
-            if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-                plt.xlim(xmin = xlim[0] - 0.1)
-                plt.xlim(xmax = xlim[1] + 0.1)  
-            ylim = plt.ylim()
-            if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-                plt.ylim(ymin = ylim[0] - 0.1)
-                plt.ylim(ymax = ylim[1] + 0.1) 
-            if self.enableAnimation == True:
-                self.animation_label["Wz(Wy)"] = node_label
-                self.point_ani_wzwy, = plt.plot(self.data[node_label].get("reaction_couple_Y_global")[0],
-                                                self.data[node_label].get("reaction_couple_Z_global")[0],
-                                                "ro")
-                ani = animation.FuncAnimation(fig      = fig,
-                                              func     = self.update_points_wzwy,
-                                              frames   = length,
-                                              interval = self.__ani_interval,
-                                              repeat   = True,
-                                              blit     = True)
-            plt.show()
-
-    def W(self, node_label="1"):
-        length = min(len(self.time), len(self.data[node_label].get("reaction_couple_X_global")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Y_global")))
-        length = min(length, len(self.data[node_label].get("reaction_couple_Z_global")))
-        fig = plt.figure()
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_X_global")[:length],label='Wx(t)',color='red')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_Y_global")[:length],label='Wy(t)',color='green')
-        plt.plot(self.time[:length],self.data[node_label].get("reaction_couple_Z_global")[:length],label='Wz(t)',color='blue')
-        plt.ylabel('W[rad/s]')
-        plt.xlabel('t[s]')
-        plt.legend()            
-        plt.grid()
-        #plt.axis('equal')
-        plt.suptitle('Global angular velocity as function of time. Node: '+ node_label)
-        xlim = plt.xlim()
-        if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-            plt.xlim(xmin = xlim[0] - 0.1)
-            plt.xlim(xmax = xlim[1] + 0.1)  
-        ylim = plt.ylim()
-        if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-            plt.ylim(ymin = ylim[0] - 0.1)
-            plt.ylim(ymax = ylim[1] + 0.1) 
-        if self.enableAnimation == True:
-            self.animation_label["W(t)"] = node_label
-            self.point_ani_wtx, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_X_global")[0],
-                                           "ro")
-            self.point_ani_wty, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_Y_global")[0],
-                                           "ro")
-            self.point_ani_wtz, = plt.plot(self.time[0],
-                                           self.data[node_label].get("reaction_couple_Z_global")[0],
-                                           "ro") 
-            ani = animation.FuncAnimation(fig      = fig,
-                                          func     = self.update_points_wt,
-                                          frames   = length,
-                                          interval = 10,
-                                          repeat   = True,
-                                          blit     = True)
-        plt.show()
-
-    def W3D(self, node_label="1"):
-        x = self.data[node_label].get("reaction_couple_X_global")
-        y = self.data[node_label].get("reaction_couple_Y_global")
-        z = self.data[node_label].get("reaction_couple_Z_global")
-        fig = plt.figure()
-        ax = fig.gca(projection='3d')
-        #ax = fig.add_subplot(1, 1, 1, projection='3d')
-        ax.plot(x, y, z, label='Wx,Wy,Wz')
-        ax.legend()            
-        ax.set_xlabel('Wx[rad/s]')
-        ax.set_ylabel('Wy[rad/s]')
-        ax.set_zlabel('Wz[rad/s]')
-        plt.legend()
-        plt.grid()
-        #plt.axis('equal')
-        plt.suptitle('Global 3D angular velocity. Node: '+ node_label)
-        xlim = plt.xlim()
-        if math.fabs(xlim[0]-xlim[1]) < 1e-3:
-            plt.xlim(xmin = xlim[0] - 0.1)
-            plt.xlim(xmax = xlim[1] + 0.1)  
-        ylim = plt.ylim()
-        if math.fabs(ylim[0]-ylim[1]) < 1e-3:
-            plt.ylim(ymin = ylim[0] - 0.1)
-            plt.ylim(ymax = ylim[1] + 0.1)
-        zlim = ax.get_zlim()
-        if math.fabs(zlim[0]-zlim[1]) < 1e-3:
-            ax.set_zlim(zlim[0] - 0.1,
-                        zlim[1] + 0.1)
-        if self.enableAnimation == True:
-            self.animation_label["W3D"] = node_label
-            self.point_ani_w3d, = ax.plot([x[0]], [y[0]], [z[0]], "ro")
-            ani = animation.FuncAnimation(fig      = fig,
-                                          func     = self.update_points_w3d,
-                                          frames   = len(self.time),
-                                          interval = 10,
-                                          repeat   = True,
-                                          blit     = True)
-        plt.show()
-        
 # --- TORQUE IN LOCAL FRAME ---
     def Tx(self,t=None,node_label="1"):
         if t == None:
@@ -1937,7 +1556,7 @@ def main():
     mbd = MBDynJntPlot("pendulum")
     mbd.clear_run()
     if mbd.getData():
-        mbd.Fy(node_label="1002")
+        mbd.Fy(t="Fx",node_label="1002")
     
 if __name__ == '__main__':
     main()
