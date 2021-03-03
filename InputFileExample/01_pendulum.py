@@ -51,7 +51,7 @@ else:
         global x, z, quiver
         
         plt.cla()
-        plt.plot(x,z,label='Pz(Px)',color='black')
+        plt.plot(x,z,label='Pz(Px)',color='c')
         plt.ylabel('Pz[m]')
         plt.xlabel('Px[m]')
         plt.legend()            
@@ -60,8 +60,8 @@ else:
         plt.suptitle('Z global position component as function of X global position component. Node: '+ node_label)
         plt.plot([0,x[num]], [0,z[num]], "ro-", linewidth = 0.3)
         quiver.remove()
-        quiver = plt.quiver(x[num], z[num], u[num], w[num], width = 0.003)
-        quiver = plt.quiver(x, z, u, w, width = 0.0001)
+        quiver = plt.quiver(x[num], z[num], u[num], w[num], width = 0.003,  angles='xy', scale_units='xy', scale=2)
+        quiver = plt.quiver(x, z, u, w, width = 0.0001,  angles='xy', scale_units='xy', scale=2, color='b')
         plt.draw()
         
         return point_ani_pzpx,
@@ -114,7 +114,7 @@ if mov_ok is not None and jnt_ok is not None:
     else:
         length = min(len(x), len(z))
         fig = plt.figure()
-        plt.plot(x,z,label='Pz(Px)',color='black')
+        plt.plot(x,z,label='Pz(Px)',color='c')
         plt.ylabel('Pz[m]')
         plt.xlabel('Px[m]')
         plt.legend()            
