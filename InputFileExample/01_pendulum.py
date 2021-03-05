@@ -9,16 +9,16 @@ from mpl_toolkits.mplot3d import Axes3D
 
 plot_mode = "2d"
 
-mov = mp.MBDynMovPlot("01_pendulum")
-jnt = jp.MBDynJntPlot("01_pendulum")
+mov = mp.MBDynMovPlot("01_pendulum2")
+jnt = jp.MBDynJntPlot("01_pendulum2")
 
 mov.clear_run()
 
 mov_ok = mov.getData()
 jnt_ok = jnt.getData()
 
-node_label = "1"
-joint_label= "1002"
+node_label = "2002"
+joint_label= "2002"
 
 __force_scale    = 0.01
 __ani_markersize = 10

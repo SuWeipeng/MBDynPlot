@@ -1,0 +1,61 @@
+begin: data;
+    problem: initial value; # the default
+end: data;
+
+begin: initial value;
+    initial time: 0.;
+    final time: 3.;
+    time step: 1.e-3;
+    max iterations: 10;
+    tolerance: 1.e-6;
+end: initial value;
+
+begin: control data;
+    structural nodes: 1;
+    rigid bodies: 1;
+    joints: 1;
+    gravity;
+end: control data;
+
+set: integer Pendulum = 1;
+set: integer Mass = 2;
+set: real M = 1.;
+set: real L = .5;
+set: real Omega0 = 8.9;
+
+reference: Pendulum,
+    reference, global, null,
+    reference, global, eye,
+    reference, global, null,
+    reference, global, 0., Omega0, 0.;
+reference: Mass,
+    reference, Pendulum, 0., 0., -L,
+    reference, Pendulum, eye,
+    reference, Pendulum, null,
+    reference, Pendulum, null;
+
+begin: nodes;
+    structural: 2000+Mass, dynamic,
+        reference, Mass, null,
+        reference, Mass, eye,
+        reference, Mass, null, 
+        reference, Mass, null;
+end: nodes;
+
+begin: elements;
+    body: 2000+Mass, 2000+Mass,
+        M,
+        reference, Mass, null,
+        null; /* The problem is no-singular
+               * because of the constraint */
+    joint: 2000+Mass, revolute pin,
+        2000+Mass,
+        reference, Pendulum, null,
+        hinge, reference, Pendulum,
+            1, 1., 0., 0., 3, 0., 1., 0.,
+        reference, Pendulum, null,
+        hinge, reference, Pendulum,
+            1, 1., 0., 0., 3, 0., 1., 0.;
+    
+    gravity: uniform, 0., 0., -1., const, 9.81;
+end: elements;
