@@ -1,0 +1,67 @@
+begin: data;
+    problem: initial value; # the default
+end: data;
+
+begin: initial value;
+    initial time: 0.;
+    final time: .1;
+    time step: 1.e-3;
+    max iterations: 10;
+    tolerance: 1.e-6;
+end: initial value;
+
+begin: control data;
+    structural nodes: 2;
+    rigid bodies: 1;
+    joints: 2;
+    gravity;
+end: control data;
+
+set: integer Pendulum = 1;
+set: integer Mass = 2;
+set: real M = 1.;
+set: real L = .5;
+set: real Omega0 = 8.9;
+
+reference: Pendulum,
+    reference, global, null,
+    reference, global, eye,
+    reference, global, null,
+    reference, global, 0., Omega0, 0.;
+reference: Mass,
+    reference, Pendulum, 0., 0., -L,
+    reference, Pendulum, eye,
+    reference, Pendulum, null,
+    reference, Pendulum, null;
+
+begin: nodes;
+    # no dynamic dofs (it will be fully gounded)
+    structural: 3000+Pendulum, static,
+        reference, Pendulum, null,
+        reference, Pendulum, eye,
+        reference, Pendulum, null, 
+        reference, global, null;
+    # "global" means no angular velocity!
+
+    structural: 3000+Mass, dynamic,
+        reference, Mass, null,
+        reference, Mass, eye,
+        reference, Mass, null,
+        reference, global, null;
+    # "global" means no angular velocity!
+end: nodes;
+
+begin: elements;   
+    body: 3000+Mass, 3000+Mass,
+        M,
+        reference, Mass, null,
+        eye; # Otherwise the problem will be singular ...
+    joint: 3000+Pendulum, clamp,
+        3000+Pendulum, node, node;
+    joint: 3000+Mass, distance,
+        3000+Pendulum,
+        3000+Mass,
+        const, L; # or use keyword: from nodes.
+    
+    gravity: uniform, 0., 0., -1., const, 9.81;
+end: elements;

@@ -139,10 +139,7 @@ class MBDynJntPlot:
             with open(self.dataFile.get("jnt"),"r") as file:
                 for i, line in enumerate(file):
                     line_list = line.strip().split(" ")
-                    
-                    if i<2:
-                        continue
-                    
+                                    
                     # get corresponding information
                     joint                      = line_list[jnt_file_structure.get("joint_label")]
                     reaction_force_X_local     = np.float64(line_list[jnt_file_structure.get("reaction_force_X_local")])
@@ -184,6 +181,20 @@ class MBDynJntPlot:
                         self.data[joint].get("reaction_couple_X_global").append(reaction_couple_X_global)
                         self.data[joint].get("reaction_couple_Y_global").append(reaction_couple_Y_global)
                         self.data[joint].get("reaction_couple_Z_global").append(reaction_couple_Z_global)
+                for label in self.data.keys():
+                    self.data[label]["reaction_force_X_local"]   = self.data[label].get("reaction_force_X_local")[2::]
+                    self.data[label]["reaction_force_Y_local"]   = self.data[label].get("reaction_force_Y_local")[2::]
+                    self.data[label]["reaction_force_Z_local"]   = self.data[label].get("reaction_force_Z_local")[2::]
+                    self.data[label]["reaction_couple_X_local"]  = self.data[label].get("reaction_couple_X_local")[2::]
+                    self.data[label]["reaction_couple_Y_local"]  = self.data[label].get("reaction_couple_Y_local")[2::]
+                    self.data[label]["reaction_couple_Z_local"]  = self.data[label].get("reaction_couple_Z_local")[2::]
+                    self.data[label]["reaction_force_X_global"]  = self.data[label].get("reaction_force_X_global")[2::]
+                    self.data[label]["reaction_force_Y_global"]  = self.data[label].get("reaction_force_Y_global")[2::]
+                    self.data[label]["reaction_force_Z_global"]  = self.data[label].get("reaction_force_Z_global")[2::]
+                    self.data[label]["reaction_couple_X_global"] = self.data[label].get("reaction_couple_X_global")[2::]
+                    self.data[label]["reaction_couple_Y_global"] = self.data[label].get("reaction_couple_Y_global")[2::]
+                    self.data[label]["reaction_couple_Z_global"] = self.data[label].get("reaction_couple_Z_global")[2::]
+                
         except:
             if self.dataFile.get("input") is not None:
                 self.run_mbdyn()
@@ -1556,7 +1567,7 @@ def main():
     mbd = MBDynJntPlot("pendulum")
     mbd.clear_run()
     if mbd.getData():
-        mbd.FF(joint_label="1002")
+        mbd.FF(joint_label="3001")
     
 if __name__ == '__main__':
     main()
