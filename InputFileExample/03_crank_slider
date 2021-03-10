@@ -25,6 +25,7 @@ begin: control data;
    structural nodes: 4;
    rigid bodies:     3;
    joints:           6;
+   #gravity;
 end: control data;
 
 #-----------------------------------------------------------------------------
@@ -173,4 +174,5 @@ begin: elements;
          Node_Ground,
          Node_Slider;
                   
+   #gravity: uniform, 0., -1., 0., const, 9.81;
 end: elements;
