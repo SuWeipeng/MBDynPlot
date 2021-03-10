@@ -33,7 +33,9 @@ if mov_ok:
     y3 = mov.data["4"]["pos_y"]
     vel_x = mov.data["4"]["vel_x"]
     vel_y = mov.data["4"]["vel_y"]
-
+else:
+    print("\n\n\nPlease run again.")
+    sys.exit()
 jnt     = jp.MBDynJntPlot("03_crank_slider")
 jnt_ok  = jnt.getData()
 __force_scale    = 1e-2
