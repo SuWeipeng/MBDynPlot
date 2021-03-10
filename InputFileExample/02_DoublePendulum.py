@@ -1,4 +1,5 @@
-# Get data from "*.mov" file
+import sys 
+sys.path.append("..")
 from MBDynMovPlot import MBDynMovPlot
 
 x1=[]
@@ -9,9 +10,9 @@ y2=[]
 pendulum_No = {"1":("1","3"),
                "2":("4","6")}
 
-target_pendulum = "1"
+target_pendulum = "2"
 
-mov     = MBDynMovPlot("doublependulum")
+mov     = MBDynMovPlot("02_doublependulum")
 #mov.clear_run() # optional
 data_ok = mov.getData()
 
