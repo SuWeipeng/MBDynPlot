@@ -36,7 +36,6 @@ if plot_mode == "3d":
         quiver = ax.quiver(x[num], y[num], z[num], u[num], v[num], w[num])
         
         ax.plot([0,x[num]], [0,y[num]], [0,z[num]], "ro-", linewidth=0.3)
-        print(type(ax))
         plt.xlim(xlim)
         plt.ylim(ylim)
         ax.set_zlim(zlim)
@@ -101,7 +100,6 @@ if mov_ok is not None and jnt_ok is not None:
         xlim = plt.xlim()
         ylim = plt.ylim()
         zlim = ax.get_zlim()
-        print(type(ax))
         quiver = ax.quiver(x[0], y[0], z[0], u[0], v[0], w[0])
         
         ani = animation.FuncAnimation(fig      = fig,
