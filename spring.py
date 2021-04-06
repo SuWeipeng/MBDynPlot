@@ -60,7 +60,6 @@ def spring3d(start, end, nodes, width):
 
     for v in np.arange(0,turns_num):
         zz = h/turns_num + z[len(z)-1]
-        print(v)
         if v == 0:
             z = np.linspace(pos[2],zz,point_num)
         else:
