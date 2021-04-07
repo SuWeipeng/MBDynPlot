@@ -23,7 +23,7 @@ else:
     sys.exit()
 
 # body data
-radius= 0.1
+radius= 0.2
 
 # spring data 3D
 x_start_3D = 0
