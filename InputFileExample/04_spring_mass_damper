@@ -32,10 +32,8 @@ end: control data;
 
 #-----------------------------------------------------------------------------
 # Design Variables
-set: real M = 1.;  #[kg] Mass
+include: "04_spring_mass_damper_data";
 set: real L = 1.;  #[m] Spring Natural Length
-set: real K = 20.; #[N/m] Spring Stiffness Coefficient
-set: real C = 1;   #[Ns/m] Damper Damping Coefficient
 
 #-----------------------------------------------------------------------------
 # Node Labels

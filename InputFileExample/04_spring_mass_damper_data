@@ -1,0 +1,3 @@
+set: real K = 25.;  #[N/m] Spring Stiffness Coefficient
+set: real C = 2;    #[Ns/m] Damper Damping Coefficient
+set: real M = 1.;   #[kg] Mass
