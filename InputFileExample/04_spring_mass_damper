@@ -1,5 +1,3 @@
-# spring_mass_damper_2.mbd
-
 #-----------------------------------------------------------------------------
 # [Data Block]
 
@@ -45,9 +43,7 @@ set: integer Body_Mass = 1;
 
 # Joint Labels
 set: integer JoClamp_Ground      = 1;
-set: integer JoInLin_Ground_Mass = 2;
-set: integer JoPrism_Ground_Mass = 3;
-set: integer JoDfmd_SpringDamper = 4;
+set: integer JoDfmd_SpringDamper = 2;
 
 #-----------------------------------------------------------------------------
 # [Nodes Block]
@@ -57,16 +53,16 @@ begin: nodes;
    #-----------------------------------------------------------------------------
    # Nodes
    structural: Node_Ground, static,
-      null, # absolute position
-      eye,  # absolute orientation
-      null, # absolute velocity
-      null; # absolute angular velocity
+               null, # absolute position
+               eye,  # absolute orientation
+               null, # absolute velocity
+               null; # absolute angular velocity
       
    structural: Node_Mass, dynamic,
-      0., 0., -L, # absolute position
-      eye,        # absolute orientation
-      null,       # absolute velocity
-      null;       # absolute angular velocity
+               0., 0., -L, # absolute position
+               eye,        # absolute orientation
+               null,       # absolute velocity
+               null;       # absolute angular velocity
       
 end: nodes;
 
@@ -78,28 +74,26 @@ begin: elements;
    #-----------------------------------------------------------------------------
    # Bodies
    body: Body_Mass, Node_Mass,
-      M,    # mass
-      null, # relative center of mass
-      eye;  # inertia matrix
+         M,    # mass
+         null, # relative center of mass
+         eye;  # inertia matrix
 
    #-----------------------------------------------------------------------------
    # Joints
-   joint: JoClamp_Ground,
-      clamp,
-         Node_Ground,
+   joint: JoClamp_Ground, clamp,
+          Node_Ground,
             null, # absolute position
             eye;  # absolute orientation
          
-   joint: JoDfmd_SpringDamper,
-      deformable displacement joint,
-         Node_Ground,
+   joint: JoDfmd_SpringDamper, deformable displacement joint,
+          Node_Ground,
             null, # relative offset
-         Node_Mass, 
+          Node_Mass, 
             null, # relative offset
-         linear viscoelastic isotropic,
+          linear viscoelastic isotropic,
             K,    # stiffness
             C,    # viscosity coefficient
-         prestrain, single, 0., 0., -1, const, L;
+          prestrain, single, 0., 0., -1, const, L;
    
    #-----------------------------------------------------------------------------
    # Gravity          

@@ -105,7 +105,7 @@ def animate(i, sphere):
     ax2.view_init(ax1.elev, ax1.azim)
     ax2.set_zlim(ax1.get_zlim())
     
-    return line3d,point
+    return point,line3d
 
 ani = animation.FuncAnimation(fig,
                               animate,

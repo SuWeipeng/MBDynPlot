@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D, axes3d
 from matplotlib import cm
 
-N = 100
+N = 15
 offset_2d = 1.5
 A = 1
 x = np.linspace(0, 2*np.pi, N)
